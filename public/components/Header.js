@@ -8,8 +8,8 @@ const Header = new subComponent({
     <div id='container'>
       <div class='left'></div>
       <div class='right'>
-        <RowIcon { class: ["fa-house", "bx-jet", "fa-cloth"] } />
-        <RowIcon { class: ["fa-house", "bx-jet", "fa-cloth"] } />
+        <RowIcon { iconsClass: [ { iclass: "bx-bus" }, { iclass: "bx-car" }, { iclass: "bx-pen" }] } />
+        <RowIcon { iconsClass: [{ iclass: "bx-edit" }, { iclass: "bx-rocket" }, { iclass: "bx-bell" }] } />
       </div>
     </div>
   `,
@@ -29,11 +29,11 @@ const Header = new subComponent({
       width: 20%;
     `,
     ".right" : `
-      width: 70%;
-      padding-inline: 5px;
+      width: 50%;
+      padding-inline: 12px;
       padding-block: 5px;
       box-sizing: border-box;
-      background: silver;
+      color: white;
     `,
     ".row" : `
       

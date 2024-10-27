@@ -553,7 +553,7 @@ const QueFlow = ((exports) => {
 
   function initiateSubComponents(markup, isNugget) {
     const subRegex = new RegExp("<[A-Z]\\w+\/[>]", "g"),
-      nuggetRegex = new RegExp("<([A-Z]\\w+)\\s*\\{[^\/>]*\\}\\s*\/>", "g");
+      nuggetRegex = new RegExp("<([A-Z]\\w+)\\s*\\{[^/>]*\\}\\s*\/>", "g");
 
     if (subRegex.test(markup) && !isNugget) {
       markup = markup.replace(subRegex, (match) => {
@@ -583,6 +583,7 @@ const QueFlow = ((exports) => {
         return evaluated;
       });
     }
+
     return lintPlaceholders(markup);
   }
 
@@ -837,7 +838,7 @@ const QueFlow = ((exports) => {
   class Nugget {
     /**
      * A class for creating reusable UI components
-     * @param {Object} options    An object containing all required options for the class
+     * @param {Object} options    An object containing all required options for the component
      */
 
     constructor(options = {}) {
@@ -864,9 +865,9 @@ const QueFlow = ((exports) => {
       const counter = this.counter;
       // Create a variable that holds the template 
       const template = this.template instanceof Function ? this.template(data) : this.template,
-        // Parse and initiate Nested Nuggets
+      // Parse and initiate Nested Nuggets
         initiated = initiateSubComponents(template, true),
-        // Render parsed html
+      // Render parsed html
         rendered = renderTemplate(initiated, data);
 
       const html = g(rendered, counter);
