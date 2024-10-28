@@ -4,12 +4,12 @@ const RowIcon = new Nugget({
   template: (props) => {
     return `
       <div class='row'>
-    ` + props.iconsClass.map(({ iclass, click, text, isInverted}) => {
+    ` + props.iconsClass.map(({ iclass, click, text, isInverted, prop }) => {
       if (iclass) {
         const firstTwo = iclass.slice(0, 2);
-        return `<i class='${ firstTwo === "fa" ? "fa "+iclass : "bx "+iclass }' onclick="${ click }"></i>`
+        return `<i class='${ firstTwo === "fa" ? "fa "+iclass : "bx "+iclass }' onclick="${ click };"></i>`
       } else {
-        return `<span${ isInverted ? ' transform="rotate(90deg)"' : ''} onclick="${ click }">${text}</span>`      
+        return `<span${ isInverted ? ' transform="rotate(90deg)"' : ''} onclick="${ click };">${text}</span>`
       }
     }).join("\n") + `</div>`;
   },
@@ -95,11 +95,12 @@ const Button = new Nugget({
 
 const InputModal = new Nugget({
   template: (data) => {
+
     return `
       <div class="modal" display={{ this.data.modalDisplay }}>
         <h2 color='rgba(19, 40, 67, 1)'>{{ title }}</h2>
         
-        <TextField { width: 63, height: 57, border: 'dodgerblue', color: 'rgba(0,0,0,0.6)', placeholder: '${data.modalPlaceholder}', value: '${data.modalInputValue}', id: '${data.id}' } />
+        <TextField { width: 63, height: 57, border: 'dodgerblue', color: 'rgba(0,0,0,0.6)', placeholder: '${data.placeholder}', value: '${data.value}', id: '${data.id}' } />
         
         <Button { width: 60, height: 54, bg: 'rgb(80, 157, 255)', color: 'white', label: 'Done', icon: "bx bx-check", click: 'this.data.modalDisplay="none"' } />
       </div>`

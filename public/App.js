@@ -41,3 +41,5 @@ const PixelPen = new QComponent("#app", {
 PixelPen.render();
 
 currentElement = document.querySelector("h1");
+
+setTimeout(() => Footer.data.modalDisplay = "flex", 500);

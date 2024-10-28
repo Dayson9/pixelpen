@@ -1,10 +1,10 @@
+
 const updateElement = (title, placeholder, prop, isAttribute) => {
 
   Footer.data.modalDisplay = "flex";
   Footer.data.modalTitle = title;
   Footer.data.modalPlaceholder = placeholder;
-  const value = isAttribute ? currentElement[prop] : currentElement.style[prop];
-  Footer.data.modalInputValue = value != "undefined" ? value : '';
+  Footer.data.modalInputValue = currentElement.style[prop] ?? currentElement[prop];
 
   const input = document.getElementById("footer-input");
 

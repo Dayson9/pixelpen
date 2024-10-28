@@ -96,8 +96,7 @@ const QueFlow = ((exports) => {
           return createReactiveObject(target[key]); // Make nested objects reactive
         },
         set(target, key, value) {
-          if (target[key] === value) return true;
-
+          const prev = target[key];
           target[key] = value; // Update the target object accordingly
 
           if (object.forComponent) {
@@ -110,7 +109,7 @@ const QueFlow = ((exports) => {
               } else {
                 // Update the target object accordingly
                 target[key] = value;
-                updateComponent(key, host);
+                updateComponent(key, host, prev, value);
               }
             }
             host.renderEvent.key = key;
@@ -496,16 +495,12 @@ const QueFlow = ((exports) => {
     const isSVGElement = child instanceof SVGElement;
     if (key.indexOf("style.") > -1) {
       let sliced = key.slice(6);
-      if (evaluated !== child.style[sliced]) {
-        child.style[sliced] = evaluated;
-      }
+      child.style[sliced] = evaluated;
     } else {
-      if (evaluated !== child[key]) {
-        if (!key.startsWith("on")) {
-          isSVGElement ? child.setAttribute(key, evaluated) : child[key] = evaluated;
-        } else {
-          child.addEventListener(key.slice(2), evaluated);
-        }
+      if (!key.startsWith("on")) {
+        isSVGElement ? child.setAttribute(key, evaluated) : child[key] = evaluated;
+      } else {
+        child.addEventListener(key.slice(2), evaluated);
       }
     }
   }
@@ -519,25 +514,26 @@ const QueFlow = ((exports) => {
   }
 
   // Updates a component based on changes made to it's data
-  function updateComponent(ckey, obj) {
-    // Filters Null elements from the Component
-    obj.dataQF = filterNullElements(obj.dataQF);
+  function updateComponent(ckey, obj, prev, _new) {
+    if (prev !== _new) {
+      // Filters Null elements from the Component
+      obj.dataQF = filterNullElements(obj.dataQF);
 
-    let { dataQF } = obj;
+      let { dataQF } = obj;
 
-    for (let d of dataQF) {
-      let { template, key, qfid } = d;
-      let child = selectElement(qfid);
-      if (needsUpdate(template, ckey)) {
-        let len = countPlaceholders(template);
+      for (let d of dataQF) {
+        let { template, key, qfid } = d;
+        let child = selectElement(qfid);
+        if (needsUpdate(template, ckey)) {
+          let len = countPlaceholders(template);
 
-        evaluated = evaluateTemplate(len, template, obj);
+          evaluated = evaluateTemplate(len, template, obj);
 
-        key = (key === "class") ? "className" : key;
-        update(child, key, evaluated);
+          key = (key === "class") ? "className" : key;
+          update(child, key, evaluated);
+        }
       }
     }
-
   }
 
   function renderTemplate(input, props) {
@@ -865,9 +861,9 @@ const QueFlow = ((exports) => {
       const counter = this.counter;
       // Create a variable that holds the template 
       const template = this.template instanceof Function ? this.template(data) : this.template,
-      // Parse and initiate Nested Nuggets
+        // Parse and initiate Nested Nuggets
         initiated = initiateSubComponents(template, true),
-      // Render parsed html
+        // Render parsed html
         rendered = renderTemplate(initiated, data);
 
       const html = g(rendered, counter);
