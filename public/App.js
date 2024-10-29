@@ -1,6 +1,8 @@
 import Header from './components/Header.js';
 import Canvas from './components/Canvas.js';
 import Footer from './components/Footer.js';
+import Highlighter from './components/Highlighter.js';
+import ElementMenu from './components/ElementMenu.js';
 
 const { QComponent } = QueFlow;
 
@@ -9,7 +11,9 @@ const PixelPen = new QComponent("#app", {
     <div id="main">
       <Header/>
       <Canvas/>
+      <Highlighter/>
       <Footer/>
+      <ElementMenu/>
     </div>
   `,
   stylesheet: {
@@ -41,5 +45,3 @@ const PixelPen = new QComponent("#app", {
 PixelPen.render();
 
 currentElement = document.querySelector("h1");
-
-setTimeout(() => Footer.data.modalDisplay = "flex", 500);

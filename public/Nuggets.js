@@ -2,16 +2,33 @@ const { Nugget } = QueFlow;
 
 const RowIcon = new Nugget({
   template: (props) => {
-    return `
+    if (props.isLowerIcons) {
+      return `
       <div class='row'>
-    ` + props.iconsClass.map(({ iclass, click, text, isInverted, prop }) => {
-      if (iclass) {
-        const firstTwo = iclass.slice(0, 2);
-        return `<i class='${ firstTwo === "fa" ? "fa "+iclass : "bx "+iclass }' onclick="${ click };"></i>`
-      } else {
-        return `<span${ isInverted ? ' transform="rotate(90deg)"' : ''} onclick="${ click };">${text}</span>`
-      }
-    }).join("\n") + `</div>`;
+    ` + lowerIconInfos.map(({ iclass, click, text, prop, label }) => {
+        const firstTwo = iclass?.slice(0, 2);
+        if (!text) {
+          return `
+           <div onclick="${ click };">
+             <i class='${ firstTwo === "fa" ? "fa "+iclass : "bx "+iclass }'></i>
+            <span class='label'>${label}</span>
+           </div>
+        `
+        } else {
+          return `
+              <div onclick="${ click };">
+                <span>${text}</span>
+                <span class='label'>${label}</span>
+              </div>`
+        }
+      }).join("\n") + `</div>`;
+    } else {
+      return `<div class='row'>` +
+        props.iconsClass.map(({ iclass, click }) => {
+          const firstTwo = iclass.slice(0, 2);
+          return `<i class='${ firstTwo === "fa" ? "fa "+iclass : "bx "+iclass }' onclick="${ click };"></i>`
+        }).join("\n"); + `</div>`
+    }
   },
   stylesheet: {
     ".row": `
@@ -30,7 +47,7 @@ const SlidingIcons = new Nugget({
   template: (data) => {
     return `
       <div class='slider'>
-       <RowIcon { iconsClass: ${data.iconsClass} } />       
+       <RowIcon { isLowerIcons: ${ data.isLowerIcons } } />       
       </div>
       `
   },
@@ -50,6 +67,15 @@ const SlidingIcons = new Nugget({
         font-size: 20px;
         margin-right: 35px;
         color: rgb(80, 157, 255);
+    `,
+    ".slider .label": `
+        display: block;
+        font-weight: 400;
+        font-size: 9px;
+    `,
+    ".slider div:not(.row)": `
+        width: 80px;
+        text-align: center;
     `
   }
 });
@@ -57,20 +83,22 @@ const SlidingIcons = new Nugget({
 
 const TextField = new Nugget({
   template: () => {
-    return `<input type='text' id='{{ id }}' width='{{ width }}%' height='{{ height }}px' color='{{ color }}' placeholder='{{ placeholder }}' value='{{ value }}' />`
+    return `<textarea type='text' id='{{ id }}' width='{{ width }}%' height='{{ height }}px' color='{{ color }}' placeholder='{{ placeholder }}' value='{{ value }}'></textarea>`
   },
   stylesheet: {
-    'input': `
+    'textarea': `
       border: 2px solid white;
       border-radius: 20px;
       background: rgba(0,0,0,0.05);
       outline: none;
-      padding-left: 20px;
-      font-weight: 600;
+      padding-left: 12px;
+      padding-top: 8px;
+      font-weight: 200;
       color: black;
+      font-family: 'Inter';
     `,
 
-    "input:hover": `
+    "textarea:hover": `
       border-color: rgb(80, 157, 255);
     `
   }
@@ -109,11 +137,11 @@ const InputModal = new Nugget({
   stylesheet: {
     ".modal": `
       width: 100%;
-      height: 180px;
+      height: 170px;
       border-radius: 10px;
       box-shadow: 2px 0px 16px rgba(0,0,0,0.1);
-      position: absolute;
-      bottom: 0vh;
+      position: fixed;
+      bottom: 0px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -126,3 +154,20 @@ const InputModal = new Nugget({
     `
   }
 });
+
+
+const VerticalScrollList = new Nugget({
+  template: (orops) => {
+    return `<div class'scrolldiv'>`+
+      props.map(item => {
+        return `<span onclick=''>${item}</span>`
+      }).join("\n")+`</div>`
+  },
+  stylesheet: {
+    ".scrolldiv" : `
+      width: 100%;
+      height: 70%;
+      
+    `
+  }
+})

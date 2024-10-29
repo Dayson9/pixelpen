@@ -515,7 +515,7 @@ const QueFlow = ((exports) => {
 
   // Updates a component based on changes made to it's data
   function updateComponent(ckey, obj, prev, _new) {
-    if (prev !== _new) {
+    if (prev !== _new || _new === '') {
       // Filters Null elements from the Component
       obj.dataQF = filterNullElements(obj.dataQF);
 
