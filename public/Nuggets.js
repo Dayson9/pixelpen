@@ -83,7 +83,7 @@ const SlidingIcons = new Nugget({
 
 const TextField = new Nugget({
   template: () => {
-    return `<textarea type='text' id='{{ id }}' width='{{ width }}%' height='{{ height }}px' color='{{ color }}' placeholder='{{ placeholder }}' value='{{ value }}'></textarea>`
+    return `<textarea type='text' id='{{ id }}' width='{{ width }}%' height='{{ height }}px' color='{{ color }}' placeholder='{{ placeholder }}' value='{{ value }}'>{{ value }}</textarea>`
   },
   stylesheet: {
     'textarea': `
@@ -130,7 +130,7 @@ const InputModal = new Nugget({
         
         <TextField { width: 63, height: 57, border: 'dodgerblue', color: 'rgba(0,0,0,0.6)', placeholder: '${data.placeholder}', value: '${data.value}', id: '${data.id}' } />
         
-        <Button { width: 60, height: 54, bg: 'rgb(80, 157, 255)', color: 'white', label: 'Done', icon: "bx bx-check", click: 'this.data.modalDisplay="none"' } />
+        <Button { width: 60, height: 54, bg: 'rgb(80, 157, 255)', color: 'white', label: 'Done', icon: "bx bx-check", click: '${data.click}' } />
       </div>`
 
   },
@@ -157,17 +157,38 @@ const InputModal = new Nugget({
 
 
 const VerticalScrollList = new Nugget({
-  template: (orops) => {
-    return `<div class'scrolldiv'>`+
-      props.map(item => {
-        return `<span onclick=''>${item}</span>`
+  template: (props) => {
+    return `<div class='scrolldiv'>`+
+      props.list.map((item, index) => {
+        return `<span ${ index === 0 ? "class='first'" : "" } onclick='appendNewElement("${item}")'>${item}</span><hr>`
       }).join("\n")+`</div>`
   },
   stylesheet: {
     ".scrolldiv" : `
       width: 100%;
-      height: 70%;
-      
+      max-height: 60%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-evenly;
+      border-radius: inherit;
+      padding-block: 10px;
+      overflow-y: scroll;
+      box-sizing: border-box;
+    `,
+    
+    ".scrolldiv span" : `
+      color: rgb(80, 157, 255);
+      width: 100%;
+    `,
+    
+    ".scrolldiv hr" : `
+      width: 85%;
+      color: rgba(0,0,0,0.1);
+    `,
+    
+    ".scrolldiv .first": `
+      margin-top: 400px;
     `
   }
 })

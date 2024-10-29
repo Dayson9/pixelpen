@@ -32,6 +32,65 @@ const updateElement = (title, placeholder, prop, isAttribute) => {
   }
 }
 
+const appendNewID = () => {
+  const length = out.children.length,
+    children = out.querySelectorAll("*");
+  const curr = children[length - 1];
+  if (currentElement instanceof HTMLElement) {
+    currentElement.removeAttribute("id");
+  }
+  curr.id = "pxp-current";
+  currentElement = document.getElementById('pxp-current');
+}
+
+const appendNewElement = (tagName) => {
+  Canvas.data.html = out.innerHTML;
+  Canvas.data.html += `
+    <${tagName}>${tagName.toUpperCase()}</${tagName}>
+  `;
+  Highlighter.data.display = "block";
+  ElementMenu.data.display = "none";
+
+  appendNewID();
+  updateHighlighter();
+  addClick();
+
+  localStorage.setItem("pxp-html", Canvas.data.html);
+}
+
+const addClick = () => {
+  const children = out.querySelectorAll("*");
+  children.forEach((el) => {
+    el.onclick = function() {
+      currentElement.removeAttribute("id");
+      this.id = "pxp-current";
+      localStorage.setItem("pxp-html", out.innerHTML);
+      currentElement = document.getElementById('pxp-current');
+      updateHighlighter();
+    }
+  });
+}
+
+const reset = () => {
+  Footer.data.modalDisplay = "none";
+  localStorage.setItem("pxp-html", out.innerHTML);
+  /**Canvas.data.html = out.innerHTML;
+  addClick(); **/
+}
+
+const loadAssets = () => {
+  const pxpHTML = localStorage.getItem("pxp-html");
+
+  if (pxpHTML) {
+    Canvas.data.html = pxpHTML;
+    currentElement = document.getElementById("pxp-current");
+    addClick();
+    Highlighter.data.display = "block";
+    updateHighlighter();
+  }
+}
+
+
 var currentElement = {};
 
 const lowerIconInfos = [

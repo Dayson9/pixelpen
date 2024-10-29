@@ -234,20 +234,11 @@ const QueFlow = ((exports) => {
       out = "",
       data = [];
     let d = parser.parseFromString(jsx, "text/html"),
-      doc = d.body,
-      html = doc.innerHTML;
+      doc = d.body;
 
-    let div = document.createElement("div"),
-      len = countPlaceholders(doc.innerHTML),
-      str = evaluateTemplate(len, doc.innerHTML, instance);
-
-    div.innerHTML = str;
-
-    let docLen = doc.querySelectorAll("*").length;
-    let divLen = div.querySelectorAll("*").length;
 
     try {
-      let targetElements = divLen > docLen ? div.querySelectorAll("*") : doc.querySelectorAll("*");
+      let targetElements = doc.querySelectorAll("*");
 
       let ln = targetElements.length;
       // Iterates over target elements
@@ -268,13 +259,12 @@ const QueFlow = ((exports) => {
       console.error("QueFlow Error:\nAn error occurred while processing JSX/HTML:\n" + error);
     }
 
-    let finalElement = divLen > docLen ? div : doc;
-    let finalLen = countPlaceholders(finalElement.innerHTML);
-    out = evaluateTemplate(finalLen, finalElement.innerHTML, instance);
+  
+    let finalLen = countPlaceholders(doc.innerHTML);
+    out = evaluateTemplate(finalLen, doc.innerHTML, instance);
 
     // Remove temporary elements
     doc.remove();
-    div.remove();
 
     return [out, data];
   }
@@ -362,8 +352,9 @@ const QueFlow = ((exports) => {
     const isSVGElement = child instanceof SVGElement;
 
     if (!isParent) {
-      attr.push({ attribute: "innerText", value: child.innerText });
+      attr.push({ attribute: instance.useStrict ? "innerText" : "innerHTML", value: instance.useStrict ? child.innerText : child.innerHTML });
     }
+  
 
     for (let { attribute, value } of attr) {
       value = value || "";
@@ -498,7 +489,9 @@ const QueFlow = ((exports) => {
       child.style[sliced] = evaluated;
     } else {
       if (!key.startsWith("on")) {
-        isSVGElement ? child.setAttribute(key, evaluated) : child[key] = evaluated;
+        child[key] = evaluated;
+        if(child[key] !== evaluated)
+        child.setAttribute(key, evaluated);
       } else {
         child.addEventListener(key.slice(2), evaluated);
       }
@@ -657,6 +650,13 @@ const QueFlow = ((exports) => {
       this.created = options.created;
       this.run = options.run;
 
+      if (options.useStrict === true || options.useStrict === false) {
+        this.useStrict = options.useStrict;
+      } else {
+        this.useStrict = true;
+      }
+
+
       let id = this.element.id;
       if (!id) throw new Error("QueFlow Error:\nTo use component scoped stylesheets, component's element must have a valid id");
 
@@ -753,6 +753,12 @@ const QueFlow = ((exports) => {
 
       this.renderEvent = qfEvent("qf:render");
 
+      if (options.useStrict === true || options.useStrict === false) {
+        this.useStrict = options.useStrict;
+      } else {
+        this.useStrict = true;
+      }
+
       // Defines properties for the subcomponent instance.
       Object.defineProperties(this, {
         data: {
@@ -786,9 +792,8 @@ const QueFlow = ((exports) => {
 
       // Initiates sub-component's stylesheet 
       initiateStyleSheet(`#${el.id}`, this);
-
       const rendered = jsxToHTML(newTemplate, this, name);
-
+      
       el.innerHTML = rendered[0];
       this.dataQF = rendered[1];
       this.element = el.id;

@@ -11,7 +11,7 @@ const Footer = new subComponent({
   template: () => `
       <div id="container">
         <SlidingIcons { isLowerIcons: true } />
-        <InputModal { title: "{{ this.data.modalTitle }}", id: "footer-input", placeholder: "{{ this.data.modalPlaceholder }}", value: "{{ this.data.modalInputValue }}" } />
+        <InputModal { title: "{{ this.data.modalTitle }}", id: "footer-input", placeholder: "{{ this.data.modalPlaceholder }}", value: "{{ this.data.modalInputValue }}", click: 'reset();' } />
       </div>
   `,
   stylesheet: {

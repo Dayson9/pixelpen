@@ -2,13 +2,11 @@ const { subComponent } = QueFlow;
 
 const Canvas = new subComponent({
   data: {
-
+    html: ""
   },
   template: () => `
      <svg>
-      <foreignObject x="0" y="0" width="100vw" height="100%">
-        <h1 width='240px' height='150px' background='slateblue'>Hello</h1>
-      </foreignObject>
+      <foreignObject x="0" y="0" width="100vw" height="100%" id='out'>{{ this.data.html }}</foreignObject>
      </svg>
     `,
   stylesheet: {
@@ -18,8 +16,13 @@ const Canvas = new subComponent({
       background: white;
       padding: 0px;
       margin: 0px;
+    `,
+    
+    "foreignObject *" : `
+      box-sizing: border-box;
     `
-  }
+  },
+  useStrict: false
 });
 
 globalThis["Canvas"] = Canvas;

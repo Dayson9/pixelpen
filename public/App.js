@@ -3,6 +3,7 @@ import Canvas from './components/Canvas.js';
 import Footer from './components/Footer.js';
 import Highlighter from './components/Highlighter.js';
 import ElementMenu from './components/ElementMenu.js';
+import saveAsFile from './HelperFunctions.js';
 
 const { QComponent } = QueFlow;
 
@@ -43,5 +44,4 @@ const PixelPen = new QComponent("#app", {
 });
 
 PixelPen.render();
-
-currentElement = document.querySelector("h1");
+loadAssets();
