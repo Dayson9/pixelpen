@@ -7,34 +7,29 @@ const Menu = new subComponent({
   },
   template: () => {
     return `
-       <div id='ham' onclick={{ openMenu(); }}>
-        <div transform="translateX({{ this.data.translate[0] }}px)"></div>
-        <div transform="translateX({{ this.data.translate[1] }}px)"></div>
-        <div transform="translateX({{ this.data.translate[2] }}px)"></div>
+       <div class='ham' id='ham' onclick={{ openMenu(); }}>
+        <div transform={{ "translateX("+this.data.translate[0]+"px)" }}></div>
+        <div transform={{ "translateX("+this.data.translate[1]+"px)" }}></div>
+        <div transform={{ "translateX("+this.data.translate[2]+"px)" }}></div>
        </div>
        
       <div id='slider' transform="translateX({{ this.data.isOpened ? -105 : 58 }}%)">
-        <i class='bx bx-trash' onclick={{ deleteElement(); }}></i>
-        <i class='bx bx-brush' onclick={{ clearCanvas(); }}></i>
-        <i class='bx bx-copy' onclick={{ cloneElement(); }}></i>
+        <i class='bx bx-trash' onclick={{ openModal("Delete Element", "Are you sure you want to delete this element?", "Delete"); }}></i>
+        <i class='bx bx-brush' onclick={{ openModal("Clear Canvas", "This action is irreversible?", "Clear"); }}></i>
+        <i class='bx bx-copy' onclick={{ openModal("Clone Element", "Clone the selected element?", "Clone"); }}></i>
+         <i class='bx bx-code-alt' onclick={{ showCode(); }}></i>
         <i class='bx bx-download' onclick={{ saveAsFile(); }}></i>
       </div>
     `
   },
   stylesheet: {
     "#ham": `
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      background: rgba(34, 70, 116, 1);
-      display: flex;
       flex-direction: column;
       align-items: center;
+      padding-block: 6px;
       justify-content: space-evenly;
       padding-block: 6px;
-      box-sizing: border-box;
     `,
-
     "#ham div": `
       width: 60%;
       height: 2px;
@@ -42,8 +37,8 @@ const Menu = new subComponent({
       border-radius: 2px;
       transition: .5s;
     `,
-    
-    "#slider" : `
+
+    "#slider": `
       width: 50%;
       height: 50px;
       background: grey;
@@ -57,11 +52,11 @@ const Menu = new subComponent({
       align-items: center;
       justify-content: space-evenly;
     `,
-    "#slider i" : `
+    "#slider i": `
       font-size: 1.2em;
     `,
-    "@media (min-width: 768px)" : {
-      "#slider" : `
+    "@media (min-width: 768px)": {
+      "#slider": `
         width: 30%;
       `
     }

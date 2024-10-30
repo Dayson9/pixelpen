@@ -1,21 +1,27 @@
 import Menu from './Menu.js';
+import NoticeModal from './NoticeModal.js';
+
 const { subComponent } = QueFlow;
 
 const Header = new subComponent({
   data: {
-    
+    hideShowIcon: "bx-hide"
   },
   template: () => `
     <div id='container'>
-      <div class='left'>
-        <img src=''/>
+      <div class='left' color='white'>
+        <span>PixelPen</span>
       </div>
       <div class='right'>
-        <div id='plus'>
-          <i class='bx bx-plus' onclick={{ ElementMenu.data.display="block" }}></i>
+        <div id='plus' onclick={{ ElementMenu.data.display="block" }}>
+          <i class='bx bx-plus'></i>
         </div>
+       <div class='ham' color='white' onclick={{ toggleHighlighter(); }}>
+         <i class={{ "bx "+this.data.hideShowIcon }}></i>
+       </div>
         <Menu/>
       </div>
+      <NoticeModal/>
     </div>
   `,
   stylesheet: {
@@ -31,15 +37,21 @@ const Header = new subComponent({
     `,
     ".left, .right" : "height: 100%;",
     ".left" : `
-      width: 65%;
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      align-items: center;
-    `,
-    ".right" : `
       width: 40%;
-      padding-inline: 12px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-sizing: border-box;
+      background: rgba(34, 70, 116, .7);
+      border-radius: 50px;
+    `,
+     ".left span" : `
+      font-size: 18px;
+     `
+    ,
+    ".right" : `
+      width: 44%;
       padding-block: 5px;
       box-sizing: border-box;
       color: white;
@@ -47,7 +59,18 @@ const Header = new subComponent({
       flex-direction: row;
       justify-content: space-between;
       align-items: center;
+      margin-left: 40px;
     `,
+    ".ham": `
+       width: 50px;
+       height: 50px;
+       border-radius: 50%;
+       background: rgba(34, 70, 116, 1);
+       display: flex;
+       align-items: center;
+       justify-content: center;
+       box-sizing: border-box;
+        `,
     "#plus i" : `
       font-size: 35px;
       font-weight: 800;

@@ -20,6 +20,7 @@ const Canvas = new subComponent({
     
     "foreignObject *" : `
       box-sizing: border-box;
+      overflow-y: scroll;
     `
   },
   useStrict: false

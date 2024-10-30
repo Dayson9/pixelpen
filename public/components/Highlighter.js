@@ -16,7 +16,7 @@ const Highlighter = new subComponent({
   stylesheet: {
     "#highlighter" : `
       background: transparent;
-      border: 1px solid grey;
+      border: 1px solid silver;
       outline: 1px solid white;
       position: absolute;
       top: 0;

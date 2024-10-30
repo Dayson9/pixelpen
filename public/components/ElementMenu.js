@@ -8,7 +8,7 @@ const ElementMenu = new subComponent({
     return `
       <div id='container' display={{ this.data.display }}>
         <div class='header'>
-          <p>Elements</p>
+          <Text { text: "Elements", weight: 600, size: 18, color: 'rgba(19, 40, 67, 1)' } /> 
           <span class='cancel' onclick={{ this.data.display = "none" }}>×</span>
         </div>
         <VerticalScrollList { list: ["div", "h1", "h2", "h3", "h4", "h5", "h6", "button", "input", "p", "span", "i", "pre", "img" ] } />

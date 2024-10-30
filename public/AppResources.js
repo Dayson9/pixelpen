@@ -1,3 +1,5 @@
+//localStorage.clear();
+
 const updateHighlighter = () => {
   const rect = currentElement.getBoundingClientRect();
 
@@ -33,21 +35,38 @@ const updateElement = (title, placeholder, prop, isAttribute) => {
 }
 
 const appendNewID = () => {
-  const length = out.children.length,
-    children = out.querySelectorAll("*");
-  const curr = children[length - 1];
-  if (currentElement instanceof HTMLElement) {
-    currentElement.removeAttribute("id");
+  const current = document.getElementById("pxp-current");
+  if (current) {
+    current.removeAttribute("id");
   }
+
+  const children = out.querySelectorAll("*"),
+    length = children.length;
+  const curr = children[length - 1];
+
   curr.id = "pxp-current";
   currentElement = document.getElementById('pxp-current');
 }
 
 const appendNewElement = (tagName) => {
-  Canvas.data.html = out.innerHTML;
-  Canvas.data.html += `
-    <${tagName}>${tagName.toUpperCase()}</${tagName}>
-  `;
+  const noClosingTags = ["img", "input", "video", "audio"];
+
+  if (noClosingTags.includes(tagName)) {
+    switch (tagName) {
+      case 'img':
+        Canvas.data.html += `
+            <img src='#' alt='' width='200px' height='150px'/>`;
+        break;
+      case 'input':
+        Canvas.data.html += `
+            <input type='text'/>`;
+        break;
+    }
+  } else {
+    Canvas.data.html += `
+    <${tagName}>${tagName.toUpperCase()}</${tagName}>`;
+  }
+
   Highlighter.data.display = "block";
   ElementMenu.data.display = "none";
 
@@ -62,11 +81,14 @@ const addClick = () => {
   const children = out.querySelectorAll("*");
   children.forEach((el) => {
     el.onclick = function() {
-      currentElement.removeAttribute("id");
+      if (currentElement?.tagName) {
+        currentElement.removeAttribute("id");
+      }
       this.id = "pxp-current";
       localStorage.setItem("pxp-html", out.innerHTML);
       currentElement = document.getElementById('pxp-current');
       updateHighlighter();
+      Highlighter.data.display = "block";
     }
   });
 }
@@ -85,7 +107,9 @@ const loadAssets = () => {
     Canvas.data.html = pxpHTML;
     currentElement = document.getElementById("pxp-current");
     addClick();
-    Highlighter.data.display = "block";
+    if (currentElement) {
+      Highlighter.data.display = "block";
+    }
     updateHighlighter();
   }
 }

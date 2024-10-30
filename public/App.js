@@ -10,9 +10,9 @@ const { QComponent } = QueFlow;
 const PixelPen = new QComponent("#app", {
   template: () => `
     <div id="main">
+      <Highlighter/>
       <Header/>
       <Canvas/>
-      <Highlighter/>
       <Footer/>
       <ElementMenu/>
     </div>

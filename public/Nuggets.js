@@ -1,5 +1,17 @@
 const { Nugget } = QueFlow;
 
+const Text = new Nugget({
+  template: () => {
+    return `<span font-size='{{ size }}px' font-weight='{{ weight }}' color='{{ color }}'>{{ text }}</span>`
+  },
+  stylesheet: {
+    span: `
+      font-family: Inter;
+      display: block;
+    `
+  }
+})
+
 const RowIcon = new Nugget({
   template: (props) => {
     if (props.isLowerIcons) {
@@ -126,8 +138,7 @@ const InputModal = new Nugget({
 
     return `
       <div class="modal" display={{ this.data.modalDisplay }}>
-        <h2 color='rgba(19, 40, 67, 1)'>{{ title }}</h2>
-        
+        <Text { text: "{{ title }}", weight: 600, size: 25, color: 'rgba(19, 40, 67, 1)' } /> 
         <TextField { width: 63, height: 57, border: 'dodgerblue', color: 'rgba(0,0,0,0.6)', placeholder: '${data.placeholder}', value: '${data.value}', id: '${data.id}' } />
         
         <Button { width: 60, height: 54, bg: 'rgb(80, 157, 255)', color: 'white', label: 'Done', icon: "bx bx-check", click: '${data.click}' } />

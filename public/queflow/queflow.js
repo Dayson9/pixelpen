@@ -245,7 +245,7 @@ const QueFlow = ((exports) => {
       for (let i = 0; i < ln; i++) {
         let c = targetElements[i];
 
-        if (sub_id) {
+        if (sub_id && !c.hasAttribute("data-sub_id")) {
           c.dataset.sub_id = sub_id;
         }
 
@@ -441,6 +441,8 @@ const QueFlow = ((exports) => {
     // Iterate through each child element
     for (let i = 0; i < len; i++) {
       let c = children[i];
+    // Remove annoying innerText attribute
+      c.removeAttribute("innerText")
       // Cache the attributes for faster access
       let attributes = getAttributes(c),
         atLen = attributes.length;
@@ -519,7 +521,6 @@ const QueFlow = ((exports) => {
         let child = selectElement(qfid);
         if (needsUpdate(template, ckey)) {
           let len = countPlaceholders(template);
-
           evaluated = evaluateTemplate(len, template, obj);
 
           key = (key === "class") ? "className" : key;
