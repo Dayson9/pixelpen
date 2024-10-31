@@ -3,6 +3,7 @@ import Canvas from './components/Canvas.js';
 import Footer from './components/Footer.js';
 import Highlighter from './components/Highlighter.js';
 import ElementMenu from './components/ElementMenu.js';
+import CodeView from './components/CodeView.js';
 import saveAsFile from './HelperFunctions.js';
 
 const { QComponent } = QueFlow;
@@ -11,6 +12,7 @@ const PixelPen = new QComponent("#app", {
   template: () => `
     <div id="main">
       <Highlighter/>
+      <CodeView/>
       <Header/>
       <Canvas/>
       <Footer/>
@@ -36,5 +38,9 @@ const PixelPen = new QComponent("#app", {
   }
 });
 
+
 PixelPen.render();
+
+out = document.querySelector("#out");
+
 loadAssets();

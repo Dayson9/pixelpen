@@ -9,7 +9,7 @@ const Header = new subComponent({
   },
   template: () => `
     <div id='container'>
-      <div class='left' color='white'>
+      <div class='left'>
         <Text { text: "PixelPen", weight: 600, size: 18, color: 'white', font: '"Bangers"' } /> 
       </div>
       <div class='right'>
@@ -45,6 +45,8 @@ const Header = new subComponent({
       box-sizing: border-box;
       background: rgba(34, 70, 116, .7);
       border-radius: 50px;
+      margin-left: 5px;
+      border: 2px solid rgba(34, 70, 116, 1);
     `,
      ".left span" : `
       font-size: 18px;

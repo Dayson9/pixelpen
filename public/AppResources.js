@@ -1,7 +1,7 @@
 //localStorage.clear();
 
 const updateHighlighter = () => {
-  const rect = currentElement.getBoundingClientRect();
+  const rect = currentElement?.getBoundingClientRect();
 
   const w = rect.width,
     h = rect.height;
@@ -105,26 +105,89 @@ const addClick = () => {
 const reset = () => {
   Footer.data.modalDisplay = "none";
   localStorage.setItem("pxp-html", out.innerHTML);
-  /**Canvas.data.html = out.innerHTML;
-  addClick(); **/
 }
 
 const loadAssets = () => {
   const pxpHTML = localStorage.getItem("pxp-html");
-
   if (pxpHTML) {
     Canvas.data.html = pxpHTML;
     currentElement = document.getElementById("pxp-current");
+
     addClick();
     if (currentElement) {
       Highlighter.data.display = "block";
       updateHighlighter();
     }
   }
+  out.ontouchmove = () => updateHighlighter();
+
+  out.onmousemove = () => updateHighlighter();
+
 }
 
+const formatCSS = (css) => css.replaceAll(";", ";\n ");
 
-var currentElement = {};
+const openCodeView = () => {
+  CodeView.data.show = true;
+  toggleMenu();
+
+  const clone = out.cloneNode(true),
+    all = clone.querySelectorAll("*");
+
+  let stylesheet = "";
+  elCounter = 0;
+  all.forEach((child) => {
+    child.classList.add("pxp-el" + elCounter);
+    stylesheet += `\n.pxp-el${elCounter} {\n ${formatCSS(child.style.cssText)}\n}\n`
+    child.removeAttribute("style");
+    child.removeAttribute("textContent");
+    if (child.id == "pxp-current") {
+      child.removeAttribute("id");
+    }
+    elCounter++;
+  });
+
+  CodeView.data.html.code = clone.innerHTML;
+  CodeView.data.css.code = stylesheet;
+
+  clone.remove();
+}
+
+const openHTML = () => {
+  CodeView.data.html.color = "rgba(19, 40, 67, 1)";
+  CodeView.data.css.color = "rgba(0,0,0,0.5)";
+
+
+  CodeView.data.fluid.width = 7;
+  setTimeout(() => {
+    CodeView.data.fluid.x = 0;
+    CodeView.data.fluid.width = 50;
+    CodeView.data.isHTML = true;
+  }, 400);
+}
+
+const openCSS = () => {
+  CodeView.data.css.color = "rgba(19, 40, 67, 1)";
+  CodeView.data.html.color = "rgba(0,0,0,0.5)";
+
+  CodeView.data.fluid.width = 7;
+  setTimeout(() => {
+    CodeView.data.fluid.x = window.innerWidth <= 768 ? 100 : (window.innerWidth / 4) - 40;
+    CodeView.data.fluid.width = 50;
+    CodeView.data.isHTML = false
+  }, 400);
+}
+
+const copyToClipboard = async (text) => {
+  try {
+    await navigator.clipboard.writeText(text);
+  } catch (error) {
+    alert(error.message);
+  }
+}
+
+var elCounter = 0,
+  currentElement = out = {};
 
 const lowerIconInfos = [
   { iclass: "bx-text", click: "updateElement('InnerText', 'Hello World', 'textContent', true)", label: "InnerText" },
@@ -135,6 +198,7 @@ const lowerIconInfos = [
   { text: "↕️", click: "updateElement('Height', '150px', 'height')", label: "Height" },
   { iclass: "bx-square", click: "updateElement('Margin', '20px 10px', 'margin')", label: "Margin" },
   { iclass: "bxs-area", click: "updateElement('Padding', '0px 10px', 'padding')", label: "Padding" },
+  { iclass: "bxs-cube", click: "updateElement('Box Sizing', 'border-box', 'boxSizing')", label: "Box-sizing" },
   { iclass: "bx-move", click: "updateElement('Transform', 'translateY(20px)', 'transform')", label: "Transform" },
   { iclass: "bx-menu-alt-left", click: "updateElement('Text-align', 'center', 'textAlign')", label: "Text Align" },
   { iclass: "bx-font-family", click: "updateElement('Font-family', 'sans-serif', 'fontFamily')", label: "Font family" },
@@ -144,7 +208,7 @@ const lowerIconInfos = [
   { iclass: "bx-border-radius", click: "updateElement('Border-radius', '5px', 'borderRadius')", label: "Border-radius" },
   { iclass: "bx-outline", click: "updateElement('Outline', '2px solid dodgerblue', 'outline')", label: "Outline" },
   { text: "◼", click: "updateElement('Box Shadow', '2px 0px 16px rgba(0,0,0,0.1)', 'boxShadow')", label: "Box Shadow" },
-  { iclass: "bxs-paint", click: "updateElement('', '', '')" },
+  { text: "•••", click: "updateElement('ClassName', 'container', 'className', true)", label: "Class Name" },
   { iclass: "bxs-pen", click: "updateElement('', '', '')" },
   { iclass: "bxs-square", click: "updateElement('', '', '')" },
   { iclass: "bxs-paint", click: "updateElement('', '', '')" }]

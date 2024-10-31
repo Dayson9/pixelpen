@@ -2,7 +2,7 @@ const saveAsFile = () => {
 
 }
 
-const openMenu = () => {
+const toggleMenu = () => {
   const first = () => {
     setTimeout(() => {
       Menu.data.translate[0] = 8;
@@ -127,6 +127,7 @@ const openModal = (title, msg, actionMsg) => {
       btn.onclick = () => {
         deleteElement();
         NoticeModal.data.shown = false;
+        toggleMenu();
       }
       break;
 
@@ -134,6 +135,7 @@ const openModal = (title, msg, actionMsg) => {
       btn.onclick = () => {
         clearCanvas();
         NoticeModal.data.shown = false;
+        toggleMenu();
       }
       break;
 
@@ -141,6 +143,7 @@ const openModal = (title, msg, actionMsg) => {
       btn.onclick = () => {
         cloneElement();
         NoticeModal.data.shown = false;
+       toggleMenu(); 
       }
       break;
   }
@@ -176,8 +179,9 @@ const openElementMenu = (isInner) => {
   ElementMenu.data.display = 'block';
 }
 
+
 globalThis.saveAsFile = saveAsFile;
-globalThis.openMenu = openMenu;
+globalThis.toggleMenu = toggleMenu;
 globalThis.deleteElement = deleteElement;
 globalThis.cloneElement = cloneElement;
 globalThis.clearCanvas = clearCanvas;

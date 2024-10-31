@@ -57,7 +57,14 @@ const NoticeModal = new subComponent({
     border-radius: 15px;
     background: rgba(0,0,0,.3);
     color: white;
-  `
+  `,
+    "@media (min-width: 768px)": {
+      ".modal": `
+        width: 45%;
+        height: 180px;
+        left: 27.5%;
+      `
+    }
   }
 });
 

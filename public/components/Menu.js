@@ -7,7 +7,7 @@ const Menu = new subComponent({
   },
   template: () => {
     return `
-       <div class='ham' id='ham' onclick={{ openMenu(); }}>
+       <div class='ham' id='ham' onclick={{ toggleMenu(); }}>
         <div transform={{ "translateX("+this.data.translate[0]+"px)" }}></div>
         <div transform={{ "translateX("+this.data.translate[1]+"px)" }}></div>
         <div transform={{ "translateX("+this.data.translate[2]+"px)" }}></div>
@@ -17,7 +17,7 @@ const Menu = new subComponent({
         <i class='bx bx-trash' onclick={{ openModal("Delete Element", "Are you sure you want to delete this element?", "Delete"); }}></i>
         <i class='bx bx-brush' onclick={{ openModal("Clear Canvas", "This action is irreversible?", "Clear"); }}></i>
         <i class='bx bx-copy' onclick={{ openModal("Clone Element", "Clone the selected element?", "Clone"); }}></i>
-         <i class='bx bx-code-alt' onclick={{ showCode(); }}></i>
+         <i class='bx bx-code-alt' onclick={{ openCodeView(); }}></i>
         <i class='bx bx-download' onclick={{ saveAsFile(); }}></i>
       </div>
     `

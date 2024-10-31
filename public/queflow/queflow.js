@@ -153,7 +153,7 @@ const QueFlow = ((exports) => {
 
   // Sanitizes a string to prevent potential XSS attacks.
   function sanitizeString(str) {
-    let excluded_chars = [{ from: "&gt;", to: ">" }, { from: "&lt;", to: "<" }, { from: "<script>", to: "&lt;script&gt;" }, { from: "</script>", to: "&lt;/script&gt;" }];
+    let excluded_chars = [{ from: "<script>", to: "&lt;script&gt;" }, { from: "</script>", to: "&lt;/script&gt;" }];
 
     str = new String(str);
 
@@ -493,7 +493,7 @@ const QueFlow = ((exports) => {
       if (!key.startsWith("on")) {
         child[key] = evaluated;
         if(child[key] !== evaluated)
-        child.setAttribute(key, evaluated);
+          child.setAttribute(key, evaluated);
       } else {
         child.addEventListener(key.slice(2), evaluated);
       }

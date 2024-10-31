@@ -26,5 +26,4 @@ const Canvas = new subComponent({
 });
 
 globalThis["Canvas"] = Canvas;
-
 export default Canvas;

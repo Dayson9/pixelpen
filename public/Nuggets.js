@@ -2,7 +2,7 @@ const { Nugget } = QueFlow;
 
 const Text = new Nugget({
   template: (props) => {
-    return `<span font-size='{{ size }}px' font-weight='{{ weight }}' color='{{ color }}'${ props.font? " font-family= {{ font }}" : "" }>{{ text }}</span>`
+    return `<span font-size='{{ size }}px' font-weight='{{ weight }}' color='{{ color }}'${ props.font ? " font-family='{{ font }}'" : "" }${ props.click ? " onclick= '{{ click }}'" : ''}>{{ text }}</span>`
   },
   stylesheet: {
     span: `
