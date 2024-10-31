@@ -48,6 +48,7 @@ const Header = new subComponent({
     `,
      ".left span" : `
       font-size: 18px;
+      letter-spacing: 4px;
      `
     ,
     ".right" : `
