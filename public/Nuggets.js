@@ -1,8 +1,8 @@
 const { Nugget } = QueFlow;
 
 const Text = new Nugget({
-  template: () => {
-    return `<span font-size='{{ size }}px' font-weight='{{ weight }}' color='{{ color }}'>{{ text }}</span>`
+  template: (props) => {
+    return `<span font-size='{{ size }}px' font-weight='{{ weight }}' color='{{ color }}'${ props.font? " font-family= {{ font }}" : "" }>{{ text }}</span>`
   },
   stylesheet: {
     span: `
@@ -169,13 +169,13 @@ const InputModal = new Nugget({
 
 const VerticalScrollList = new Nugget({
   template: (props) => {
-    return `<div class='scrolldiv'>`+
+    return `<div class='scrolldiv'>` +
       props.list.map((item, index) => {
         return `<span ${ index === 0 ? "class='first'" : "" } onclick='appendNewElement("${item}")'>${item}</span><hr>`
-      }).join("\n")+`</div>`
+      }).join("\n") + `</div>`
   },
   stylesheet: {
-    ".scrolldiv" : `
+    ".scrolldiv": `
       width: 100%;
       max-height: 60%;
       display: flex;
@@ -187,17 +187,17 @@ const VerticalScrollList = new Nugget({
       overflow-y: scroll;
       box-sizing: border-box;
     `,
-    
-    ".scrolldiv span" : `
+
+    ".scrolldiv span": `
       color: rgb(80, 157, 255);
       width: 100%;
     `,
-    
-    ".scrolldiv hr" : `
+
+    ".scrolldiv hr": `
       width: 85%;
       color: rgba(0,0,0,0.1);
     `,
-    
+
     ".scrolldiv .first": `
       margin-top: 400px;
     `

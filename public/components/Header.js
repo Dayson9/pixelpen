@@ -10,7 +10,7 @@ const Header = new subComponent({
   template: () => `
     <div id='container'>
       <div class='left' color='white'>
-        <span>PixelPen</span>
+        <Text { text: "PixelPen", weight: 600, size: 18, color: 'rgba(19, 40, 67, 1)', font: "Black Ops One" } /> 
       </div>
       <div class='right'>
         <div id='plus' onclick={{ ElementMenu.data.display="block" }}>
