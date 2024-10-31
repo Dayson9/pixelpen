@@ -13,23 +13,24 @@ const updateHighlighter = () => {
 }
 
 const updateElement = (title, placeholder, prop, isAttribute) => {
+  if (currentElement?.id) {
+    Footer.data.modalDisplay = "flex";
+    Footer.data.modalTitle = title;
+    Footer.data.modalPlaceholder = placeholder;
+    Footer.data.modalInputValue = currentElement.style[prop] ?? currentElement[prop];
 
-  Footer.data.modalDisplay = "flex";
-  Footer.data.modalTitle = title;
-  Footer.data.modalPlaceholder = placeholder;
-  Footer.data.modalInputValue = currentElement.style[prop] ?? currentElement[prop];
+    const input = document.getElementById("footer-input");
 
-  const input = document.getElementById("footer-input");
-
-  if (isAttribute) {
-    input.oninput = function() {
-      currentElement[prop] = prop === "transform" && this.value.includes("translate") ? '' : this.value;
-      updateHighlighter();
-    }
-  } else {
-    input.oninput = function() {
-      currentElement.style[prop] = prop === "transform" && this.value.includes("translate") ? '' : this.value;
-      updateHighlighter();
+    if (isAttribute) {
+      input.oninput = function() {
+        currentElement[prop] = prop === "transform" && this.value.includes("translate") ? '' : this.value;
+        updateHighlighter();
+      }
+    } else {
+      input.oninput = function() {
+        currentElement.style[prop] = prop === "transform" && this.value.includes("translate") ? '' : this.value;
+        updateHighlighter();
+      }
     }
   }
 }
@@ -48,24 +49,31 @@ const appendNewID = () => {
   currentElement = document.getElementById('pxp-current');
 }
 
-const appendNewElement = (tagName) => {
+const formatTag = (tagName) => {
   const noClosingTags = ["img", "input", "video", "audio"];
 
+  let output = '';
   if (noClosingTags.includes(tagName)) {
     switch (tagName) {
       case 'img':
-        Canvas.data.html += `
+        output = `
             <img src='#' alt='' width='200px' height='150px'/>`;
         break;
       case 'input':
-        Canvas.data.html += `
+        output = `
             <input type='text'/>`;
         break;
     }
   } else {
-    Canvas.data.html += `
+    output = `
     <${tagName}>${tagName.toUpperCase()}</${tagName}>`;
   }
+
+  return output;
+}
+
+const appendNewElement = (tagName) => {
+  Canvas.data.html += formatTag(tagName);
 
   Highlighter.data.display = "block";
   ElementMenu.data.display = "none";
@@ -80,7 +88,8 @@ const appendNewElement = (tagName) => {
 const addClick = () => {
   const children = out.querySelectorAll("*");
   children.forEach((el) => {
-    el.onclick = function() {
+    el.onclick = function(e) {
+      e.stopPropagation();
       if (currentElement?.tagName) {
         currentElement.removeAttribute("id");
       }
@@ -109,8 +118,8 @@ const loadAssets = () => {
     addClick();
     if (currentElement) {
       Highlighter.data.display = "block";
+      updateHighlighter();
     }
-    updateHighlighter();
   }
 }
 
@@ -119,6 +128,7 @@ var currentElement = {};
 
 const lowerIconInfos = [
   { iclass: "bx-text", click: "updateElement('InnerText', 'Hello World', 'textContent', true)", label: "InnerText" },
+  { iclass: "bx-transfer", click: "openElementMenu(true)", label: "InnerHTML" },
   { iclass: "bx-paint-roll", click: "updateElement('Color', 'crimson', 'color')", label: "Color" },
   { iclass: "bxs-square", click: "updateElement('Background', 'white', 'background')", label: "Background" },
   { iclass: "bx-move-horizontal", click: "updateElement('Width', '200px', 'width')", label: "Width" },

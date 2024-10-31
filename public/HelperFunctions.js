@@ -79,8 +79,14 @@ const cloneElement = () => {
   if (curr) {
     curr.removeAttribute("id");
   }
-  Canvas.data.html = out.innerHTML + `${curr.outerHTML}`;
 
+  const parent = curr?.parentElement;
+  if (parent?.id !== "out") {
+    parent.innerHTML += `${curr.outerHTML}`;
+    Canvas.data.html = out.innerHTML;
+  } else {
+    Canvas.data.html = out.innerHTML + `${curr.outerHTML}`;
+  }
   const children = out.querySelectorAll("*");
   children[children.length - 1].id = "pxp-current";
   currentElement = document.getElementById("pxp-current");
@@ -123,14 +129,14 @@ const openModal = (title, msg, actionMsg) => {
         NoticeModal.data.shown = false;
       }
       break;
- 
+
     case 'Clear':
       btn.onclick = () => {
         clearCanvas();
         NoticeModal.data.shown = false;
       }
       break;
-    
+
     case 'Clone':
       btn.onclick = () => {
         cloneElement();
@@ -140,6 +146,35 @@ const openModal = (title, msg, actionMsg) => {
   }
 }
 
+const openElementMenu = (isInner) => {
+  const all = document.querySelectorAll(".scrolldiv > span");
+  if (isInner) {
+    for (const child of all) {
+      child.onclick = function() {
+        if (currentElement.id) {
+          currentElement.innerHTML += formatTag(this.innerText);
+          Highlighter.data.display = "block";
+          ElementMenu.data.display = "none";
+          Canvas.data.html = out.innerHTML;
+          appendNewID();
+          updateHighlighter();
+          addClick();
+
+          localStorage.setItem("pxp-html", out.innerHTML);
+
+        }
+      }
+    }
+  } else {
+    for (const child of all) {
+      child.onclick = function() {
+        appendNewElement(this.innerText);
+      }
+    }
+  }
+
+  ElementMenu.data.display = 'block';
+}
 
 globalThis.saveAsFile = saveAsFile;
 globalThis.openMenu = openMenu;
@@ -148,5 +183,6 @@ globalThis.cloneElement = cloneElement;
 globalThis.clearCanvas = clearCanvas;
 globalThis.toggleHighlighter = toggleHighlighter;
 globalThis.openModal = openModal;
+globalThis.openElementMenu = openElementMenu;
 
 export default saveAsFile;
