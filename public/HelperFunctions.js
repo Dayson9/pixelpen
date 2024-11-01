@@ -93,6 +93,7 @@ const cloneElement = () => {
 
   updateHighlighter();
   addClick();
+  localStorage.setItem("pxp-html", Canvas.data.html);
 }
 
 const clearCanvas = () => {
@@ -143,7 +144,7 @@ const openModal = (title, msg, actionMsg) => {
       btn.onclick = () => {
         cloneElement();
         NoticeModal.data.shown = false;
-       toggleMenu(); 
+        toggleMenu();
       }
       break;
   }

@@ -1,16 +1,19 @@
-import Menu from './Menu.js';
-import NoticeModal from './NoticeModal.js';
+import Menu from './Menu.js'; // Import the Menu component
+import NoticeModal from './NoticeModal.js'; // Import the NoticeModal component
 
-const { subComponent } = QueFlow;
+const { subComponent } = QueFlow; // Destructure the subComponent function from QueFlow library
 
+// Define a new subComponent called Header
 const Header = new subComponent({
+  // Define initial data for the Header component
   data: {
-    hideShowIcon: "bx-hide"
+    hideShowIcon: "bx-hide" // Icon class for toggling the menu
   },
+  // Define the template for the Header component
   template: () => `
     <div id='container'>
       <div class='left'>
-        <Text { text: "PixelPen", weight: 600, size: 18, color: 'white', font: '"Bangers"' } /> 
+        <Text { text: "PixelPen", weight: 600, size: 18, color: 'white', font: '"Bangers"' } />
       </div>
       <div class='right'>
         <div id='plus' onclick={{ openElementMenu(false); }}>
@@ -24,6 +27,7 @@ const Header = new subComponent({
       <NoticeModal/>
     </div>
   `,
+  // Define the stylesheet for the Header component
   stylesheet: {
     "#container" : `
       width: 100%;
@@ -35,7 +39,7 @@ const Header = new subComponent({
       justify-content: space-between;
       align-items: center;
     `,
-    ".left, .right" : "height: 100%;",
+    ".left, .right" : "height: 100%;", // Set height for left and right sections
     ".left" : `
       width: 40%;
       height: 50px;
@@ -92,6 +96,38 @@ const Header = new subComponent({
   }
 });
 
+// Make the Header component accessible globally
 globalThis["Header"] = Header;
 
+// Export the Header component
 export default Header;
+
+
+/**
+
+<br>Explanation:<br>
+
+* <br>Imports:<br> The code imports the `Menu` and `NoticeModal` components, which are likely to be used within the Header component.
+* <br>`subComponent`:<br> The `subComponent` function is used to create a new component. This function is likely part of a framework or library like QueFlow.
+* <br>`Header` Component:<br>
+    * <br>`data`:<br> An object containing initial data for the component. It includes `hideShowIcon` for toggling the menu.
+    * <br>`template`:<br> The HTML template for the component, defining its structure and elements:
+        * `container`: The main div containing the Header.
+        * `left`: The left section with "PixelPen" text.
+        * `right`: The right section with the plus icon, hamburger icon, and menu.
+    * <br>`stylesheet`:<br>  An object defining the CSS styles for the Header component. It styles elements like the container, left and right sections, plus icon, and hamburger icon.
+* <br>Global Access:<br> `globalThis["Header"] = Header;` makes the `Header` component accessible globally, meaning it can be used in any part of the application.
+* <br>Export:<br> The `export default Header;` statement makes the `Header` component available for use in other modules.
+
+<br>Key Features:<br>
+
+* <br>Component Structure:<br> The Header component is well-structured with clear sections for the left and right content.
+* <br>Styling:<br> CSS styles are used to visually format the Header with colors, fonts, and layout.
+* <br>Interactive Elements:<br> The plus icon and hamburger icon are interactive elements that likely trigger functions for opening menus or toggling features.
+* <br>Modular Design:<br> The use of separate `Menu` and `NoticeModal` components promotes code reusability and better organization.
+
+<br>Further Enhancements:<br>
+
+* <br>Functionality:<br> Add functionality to the interactive elements to achieve the desired behavior (e.g., open menus, toggle features).
+* <br>Dynamic Data:<br> Consider using data binding to dynamically change the content or style of the Header based on user actions or application state.
+* <br>Accessibility:<br> Ensure the Header is accessible to users with disabilities by following web accessibility guidelines. **/
