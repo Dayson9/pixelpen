@@ -46,13 +46,12 @@ const Menu = new subComponent({
       border-radius: 2px;
       transition: .5s;
     `,
-
     // Styles for the sliding menu container
     "#slider": `
       width: 50%;
       height: 50px;
       background: grey;
-      position: absolute;
+      position: fixed;
       top: 5px;
       border-radius: 50px;
       background: rgba(34, 70, 116, 1);

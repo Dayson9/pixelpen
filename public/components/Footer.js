@@ -8,12 +8,11 @@ const Footer = new subComponent({
     modalDisplay: "none", 
     modalTitle: "InnerText",
     modalPlaceholder: 'Hello World',
-    modalInputValue: '',
-    brightness: 10
+    modalInputValue: ''
   },
   // Define the template for the Footer component.
   template: () => `
-      <div id="container" filter={{ "brightness("+this.data.brightness+"%)" }}>
+      <div id="container">
         <SlidingIcons { isLowerIcons: true } />
         <InputModal
           { title: "{{ this.data.modalTitle }}", 
@@ -37,7 +36,7 @@ const Footer = new subComponent({
       align-items: center;
       transform: translateY(-10px);
       position: fixed;
-      bottom: -10px;
+      bottom: -10px
     `,
     // Style for the slider element.
     ".slider": `
