@@ -94,8 +94,8 @@ const SlidingIcons = new Nugget({
 
 
 const TextField = new Nugget({
-  template: () => {
-    return `<textarea type='text' id='{{ id }}' width='{{ width }}%' height='{{ height }}px' color='{{ color }}' placeholder='{{ placeholder }}' value='{{ value }}'>{{ value }}</textarea>`
+  template: (props) => {
+    return `<textarea type='text' id='{{ id }}' width='{{ width }}%' height='{{ height }}px' color='{{ color }}' placeholder='{{ placeholder }}' value='{{ value }}'${props.input ? " oninput='{{ input }}'" : "" }>{{ value }}</textarea>`
   },
   stylesheet: {
     'textarea': `
@@ -177,7 +177,7 @@ const VerticalScrollList = new Nugget({
   stylesheet: {
     ".scrolldiv": `
       width: 100%;
-      max-height: 60%;
+      max-height: 75%;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -199,7 +199,7 @@ const VerticalScrollList = new Nugget({
     `,
 
     ".scrolldiv .first": `
-      margin-top: 400px;
+      margin-top: 350px;
     `
   }
 })

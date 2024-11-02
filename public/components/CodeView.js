@@ -1,9 +1,9 @@
-// Import the subComponent function from the QueFlow library.
+// Import the subComponent constructor from QueFlow.
 const { subComponent } = QueFlow;
 
 // Create a new CodeView component using the subComponent function.
 const CodeView = new subComponent({
-  // Define the initial data for the component.
+  // Define the reactive data for the component.
   data: {
     // Data for HTML code.
     html: {
@@ -166,36 +166,3 @@ globalThis.CodeView = CodeView;
 
 // Export the CodeView component as the default export.
 export default CodeView;
-/**
-
-<br>Explanation:<br>
-
-* <br>Import subComponent:<br> The code starts by importing the `subComponent` function from the `QueFlow` library. This function is used to create reusable UI components.
-* <br>Create CodeView:<br> A new `CodeView` component is created using the `subComponent` function.
-* <br>Data:<br> The `data` property defines the initial state of the component's data. This includes:
-    * `html`: Data for HTML code, including its color and content.
-    * `css`: Data for CSS code, including its color and content.
-    * `fluid`: Data for the slider that controls the view between HTML and CSS.
-    * `show`: A flag to control the visibility of the code view.
-    * `isHTML`: A flag to indicate whether the current view is HTML or CSS.
-* <br>Template:<br> The `template` property defines the HTML structure of the component. This includes:
-    * A container element (`#container`) that holds the entire code view.
-    * A cancel button (`#cancel`) to close the code view.
-    * A title (`Code Preview`) using the `Text` component.
-    * A row (`#row`) containing HTML and CSS labels with clickable text elements.
-    * A fluid slider (`#fluid`) to switch between HTML and CSS views.
-    * A code display area (`#code`) to show the selected code.
-    * Copy button (`#copy`) to copy the displayed code to the clipboard.
-* <br>Stylesheet:<br> The `stylesheet` property defines the CSS styles for the component. This includes styles for all the elements within the component, including layout, colors, and animations.
-* <br>Global Scope:<br> The `globalThis.CodeView = CodeView` line attaches the `CodeView` component to the global scope, making it accessible from anywhere in the application.
-* <br>Export:<br> The `export default CodeView` line exports the `CodeView` component as the default export, allowing it to be imported and used in other parts of the application.
-
-<br>Key Points:<br>
-
-* The code uses a combination of HTML, CSS, and JavaScript to create a dynamic and interactive code view component.
-* The `subComponent` function provides a convenient way to create reusable components with data, templates, and styles.
-* The component uses a fluid slider to seamlessly switch between HTML and CSS views.
-* The code includes media queries to adjust the layout of the component for different screen sizes.
-* The component provides functionality to copy the displayed code to the clipboard using the `copyToClipboard()` function.
-
-This code provides a well-structured and commented example of how to create a reusable code view component using the QueFlow library. It demonstrates how to use the `subComponent` function, manage component data, define templates, and apply styles. **/

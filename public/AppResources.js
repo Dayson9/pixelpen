@@ -178,9 +178,9 @@ const openCodeView = () => {
     const hasID = child.hasAttribute("id");
     child.classList.add("pxp-el" + elCounter);
     if (hasID) {
-      stylesheet += `#${child.id} {\n${formatCSS(child.style.cssText)}\n}\n`;
+      stylesheet += `\n#${child.id} {\n${formatCSS(child.style.cssText)}\n}\n`;
     } else {
-      stylesheet += `.pxp-el${elCounter++} {\n${formatCSS(child.style.cssText)}\n}`;
+      stylesheet += `\n.pxp-el${elCounter++} {\n${formatCSS(child.style.cssText)}\n}`;
     }
     // Remove style and text content attributes from the cloned element.
     child.removeAttribute("style");
@@ -234,7 +234,7 @@ const copyToClipboard = async (text) => {
 
 // Initialize variables.
 var elCounter = 0, // Element counter for generating unique class names.
-  currentElement = out = {}; // Initialize current element and out container.
+  currentElement = out = canvasContainer = {}; // Initialize current element and out container.
 
 // Define an array of information for the lower menu icons.
 const lowerIconInfos = [

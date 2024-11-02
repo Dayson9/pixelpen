@@ -1,9 +1,9 @@
-// Import the subComponent function from QueFlow 
+// Import the subComponent class from QueFlow 
 const { subComponent } = QueFlow;
 
 // Define a new subcomponent called NoticeModal
 const NoticeModal = new subComponent({
-  // Define the data properties for the NoticeModal
+  // Define reactive data
   data: {
     // Heading message for the modal
     headingMsg: "",
@@ -50,26 +50,6 @@ const NoticeModal = new subComponent({
         display: block;
         margin-block: 8px;
      `,
-    // Style for the button container
-    ".btns": `
-      width: 80%;
-      height: 50%;
-      margin: 0 auto;
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      margin-top: 5px;
-      justify-content: space-around;
-    `,
-    // Style for buttons within the button container
-    ".btns button": `
-      width: 100px;
-      height: 35px;
-      border: none;
-      border-radius: 15px;
-      background: rgba(0,0,0,.3);
-      color: white;
-    `,
     // Media query for screen sizes larger than 768px
     "@media (min-width: 768px)": {
       ".modal": `

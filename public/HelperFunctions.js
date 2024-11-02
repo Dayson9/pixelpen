@@ -58,8 +58,6 @@ const toggleMenu = () => {
   }
 }
 
-//localStorage.clear();
-
 
 const deleteElement = () => {
   currentElement = document.getElementById("pxp-current");
