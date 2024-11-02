@@ -26,6 +26,8 @@ const CodeView = new subComponent({
       // Width of the slider.
       width: 50
     },
+    // Opacity of the toast message
+    toastOpacity: 0,
     // Flag to show or hide the code view.
     show: false,
     // Flag to indicate whether HTML or CSS code is currently displayed.
@@ -51,6 +53,9 @@ const CodeView = new subComponent({
        <div id='code'>
         <i class='bx bx-copy' onclick={{ copyToClipboard(code.innerText) }} id='copy'></i>
          <Text { text: "{{ this.data.isHTML ? this.data.html.code : this.data.css.code }}", size: 14, weight: 300, color: "rgba(19, 40, 67, 1)", family: "Monospace" } />
+       </div>
+       <div class='toast' opacity={{ this.data.toastOpacity }} transition={{ ".5s" }}>
+         <Text { text: "Copied", color: "white", size: 12, weight: 300 } />
        </div>
       </div>
     `
@@ -116,7 +121,7 @@ const CodeView = new subComponent({
 
     // Styles for the code display area.
     "#code": `
-      width: 90%;
+      width: 82%;
       height: 70%;
       border-radius: inherit;
       background: rgba(0,0,0,0.1);
@@ -148,6 +153,15 @@ const CodeView = new subComponent({
       right: 12%;
       top: 30%;
       color: rgba(19, 40, 67, 1);      
+    `,
+    ".toast" : `
+      max-width: 70px;
+      height: auto;
+      padding-inline: 2px;
+      padding-block: 4px;
+      background: rgb(20, 30, 50);
+      border-radius: 20px;
+      margin: -50px auto;
     `,
 
     // Media query for screen sizes larger than 768 pixels.

@@ -66,7 +66,7 @@ const SlidingIcons = new Nugget({
   stylesheet: {
     ".slider": `
         width: 100%;
-        height: 100%;
+        height: 60px;
         overflow: scroll;
         display: flex;
         flex-direction: row;

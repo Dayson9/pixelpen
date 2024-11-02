@@ -34,13 +34,13 @@ const updateElement = (title, placeholder, prop, isAttribute) => {
     if (isAttribute) {
       input.oninput = function() {
         // Update the element's attribute with the input value, handling special cases like transforms.
-        currentElement[prop] = prop === "transform" && this.value.includes("translate") ? '' : this.value;
+        currentElement[prop] = this.value;
         updateHighlighter(); // Update the highlighter after changing the attribute.
       }
     } else {
       input.oninput = function() {
         // Update the element's style with the input value, handling special cases like transforms.
-        currentElement.style[prop] = prop === "transform" && this.value.includes("translate") ? '' : this.value;
+        currentElement.style[prop] = this.value;
         updateHighlighter(); // Update the highlighter after changing the style.
       }
     }
@@ -133,8 +133,9 @@ const reset = () => {
 
 // This function loads assets from localStorage if they exist.
 const loadAssets = () => {
-  // Get the HTML from localStorage.
-  const pxpHTML = localStorage.getItem("pxp-html");
+  // Get the HTML and canvas background from localStorage.
+  const pxpHTML = localStorage.getItem("pxp-html"),
+    canvasBG = localStorage.getItem("pxp-canvas-bg");
   if (pxpHTML) {
     // Update the Canvas data with the HTML from localStorage.
     Canvas.data.html = pxpHTML;
@@ -147,6 +148,11 @@ const loadAssets = () => {
       updateHighlighter();
     }
   }
+  // If canvas background is previously saved.
+  if (canvasBG) {
+    canvasContainer.style.background = canvasBG;
+  }
+
   // Hide the highlighter when the mouse moves or touches the "out" container.
   out.ontouchmove = () => Highlighter.data.display = "none";
   out.onmousemove = () => Highlighter.data.display = "none";
@@ -173,14 +179,14 @@ const openCodeView = () => {
     if (child.id == "pxp-current") {
       child.removeAttribute("id");
     }
-    
+
     // Add a class based on the element index and generate CSS rules.
     const hasID = child.hasAttribute("id");
     child.classList.add("pxp-el" + elCounter);
     if (hasID) {
-      stylesheet += `\n#${child.id} {\n${formatCSS(child.style.cssText)}\n}\n`;
+      stylesheet += `\n#${child.id} {\n${formatCSS(child.style.cssText)}}\n`;
     } else {
-      stylesheet += `\n.pxp-el${elCounter++} {\n${formatCSS(child.style.cssText)}\n}`;
+      stylesheet += `\n.pxp-el${elCounter++} {\n${formatCSS(child.style.cssText)}}`;
     }
     // Remove style and text content attributes from the cloned element.
     child.removeAttribute("style");
@@ -190,7 +196,7 @@ const openCodeView = () => {
 
   // Set the HTML and CSS code in the CodeView component.
   CodeView.data.html.code = clone.innerHTML;
-  CodeView.data.css.code = stylesheet;
+  CodeView.data.css.code = `${canvasContainer.style.background !== "" ? "\nbody {\nbackground: "+canvasContainer.style.background+";\n}\n" : ""} ${stylesheet}`;
 
   clone.remove(); // Remove the clone.
 }
@@ -226,11 +232,23 @@ const openCSS = () => {
 // This function copies text to the clipboard.
 const copyToClipboard = async (text) => {
   try {
-    await navigator.clipboard.writeText(text); // Copy text to clipboard.
+    // Copy text to clipboard.
+    await navigator.clipboard.writeText(text);
+    // Show 'Copied' message
+    CodeView.data.toastOpacity = 1;
+    // After 2 seconds, hide it back
+    setTimeout(() => CodeView.data.toastOpacity = 0, 2000);
   } catch (error) {
     alert(error.message); // Handle errors during clipboard copy.
   }
 }
+
+
+// Function for saving canvas background 
+const saveCanvasBG = (value) => {
+  localStorage.setItem("pxp-canvas-bg", value);
+}
+
 
 // Initialize variables.
 var elCounter = 0, // Element counter for generating unique class names.
@@ -258,6 +276,6 @@ const lowerIconInfos = [
   { text: "◼", click: "updateElement('Box Shadow', '2px 0px 16px rgba(0,0,0,0.1)', 'boxShadow')", label: "Box Shadow" }, // Box shadow property
   { text: "•••", click: "updateElement('ClassName', 'container', 'className', true)", label: "Class Name" }, // ClassName property
   { text: "#", click: "updateElement('ID', 'main', 'id')", label: "ID" }, // ID property
-  { iclass: "bxs-square", click: "updateElement('', '', '')" },
-  { iclass: "bxs-paint", click: "updateElement('', '', '')" }
+  { iclass: "bx-rectangle", click: "updateElement('Display', 'flex', 'display')", label: "Display" },
+  { iclass: "bx-direction", click: "updateElement('Position', 'absolute', 'position')", label: "Position" }
 ];

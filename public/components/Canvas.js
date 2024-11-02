@@ -7,7 +7,7 @@ const Canvas = new subComponent({
   data: {
     // An empty string to store the HTML content to be rendered
     html: "",
-    containerBG: "white",
+    containerBG: localStorage.getItem("pxp-canvas-bg") || "white",
     modalDisplay: "none"
   },
   // Define the template for the Canvas component
@@ -23,7 +23,7 @@ const Canvas = new subComponent({
          
           <div class='btns'>
             <button onclick={{ this.data.modalDisplay = 'none' }}>Cancel</button>
-            <button background-color='rgb(80, 157, 255)' onclick={{ canvasContainer.style.background = cbg.value; this.data.modalDisplay = 'none'; }}>Done</button>
+            <button background-color='rgb(80, 157, 255)' onclick={{ saveCanvasBG(cbg.value); this.data.modalDisplay = 'none'; }}>Done</button>
           </div>
        </div>
        

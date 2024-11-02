@@ -594,7 +594,7 @@ const QueFlow = ((exports) => {
 
   const lintPlaceholders = (html) => {
     const attributeRegex = new RegExp("\\s\\w+\\s*[=]\\s*\\{\\{[^\\}\\}]+\\}\\}", "g"),
-      eventRegex = new RegExp("\\s[on]\\w+\\s*[=]\\s*\\{\\{[^\\}\\}]+\\}\\}", "g");
+      eventRegex = new RegExp("\\s(on)\\w+\\s*[=]\\s*\\{\\{[^\\}\\}]+\\}\\}", "g");
 
     if (eventRegex.test(html)) {
       html = html.replace(eventRegex, (match) => {

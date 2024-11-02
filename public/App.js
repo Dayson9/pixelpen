@@ -1,3 +1,4 @@
+import HTU from './components/HTU.js';
 import Header from './components/Header.js';
 import Canvas from './components/Canvas.js';
 import Footer from './components/Footer.js';
@@ -9,8 +10,12 @@ import saveAsFile from './HelperFunctions.js';
 const { QComponent } = QueFlow;
 
 const PixelPen = new QComponent("#app", {
+  data: {
+    brightness: 10
+  },
   template: () => `
-    <div id="main">
+    <div id="main" filter={{ "brightness("+this.data.brightness+"%)" }}>
+      <HTU/>
       <Highlighter/>
       <CodeView/>
       <Header/>

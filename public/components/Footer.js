@@ -8,11 +8,12 @@ const Footer = new subComponent({
     modalDisplay: "none", 
     modalTitle: "InnerText",
     modalPlaceholder: 'Hello World',
-    modalInputValue: ''
+    modalInputValue: '',
+    brightness: 10
   },
   // Define the template for the Footer component.
   template: () => `
-      <div id="container">
+      <div id="container" filter={{ "brightness("+this.data.brightness+"%)" }}>
         <SlidingIcons { isLowerIcons: true } />
         <InputModal
           { title: "{{ this.data.modalTitle }}", 
@@ -27,7 +28,7 @@ const Footer = new subComponent({
     // Style for the container element.
     "#container": `
       width: 100%;
-      height: 60px;
+      height: 52px;
       box-sizing: border-box;
       background: rgba(80, 157, 255, 0.2);
       display: flex;
