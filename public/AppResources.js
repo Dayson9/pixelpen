@@ -171,32 +171,104 @@ const openCodeView = () => {
   const clone = out.cloneNode(true),
     all = clone.querySelectorAll("*"); // Get all child elements of the clone.
 
+  let arr = [];
   let stylesheet = ""; // Initialize stylesheet variable.
   elCounter = 0; // Initialize element counter.
-  all.forEach((child) => {
+  all.forEach((child, index) => {
 
     // Remove the "pxp-current" ID if it exists.
     if (child.id == "pxp-current") {
       child.removeAttribute("id");
     }
 
-    // Add a class based on the element index and generate CSS rules.
-    const hasID = child.hasAttribute("id");
-    child.classList.add("pxp-el" + elCounter);
-    if (hasID) {
-      stylesheet += `\n#${child.id} {\n${formatCSS(child.style.cssText)}}\n`;
-    } else {
-      stylesheet += `\n.pxp-el${elCounter++} {\n${formatCSS(child.style.cssText)}}`;
-    }
-    // Remove style and text content attributes from the cloned element.
-    child.removeAttribute("style");
+    arr.push({ css: child.style.cssText });
+
     child.removeAttribute("textContent");
+    child.removeAttribute("style");
 
   });
 
-  // Set the HTML and CSS code in the CodeView component.
-  CodeView.data.html.code = clone.innerHTML;
-  CodeView.data.css.code = `${canvasContainer.style.background !== "" ? "\nbody {\nbackground: "+canvasContainer.style.background+";\n}\n" : ""} ${stylesheet}`;
+  var className = "",
+    finalArr = [];
+
+  const pushToArr = (style, indx) => {
+    let index1 = parseInt(indx[0]);
+    let index2 = parseInt(indx[1]);
+
+    if (finalArr.length !== 0) {
+      for (var index in finalArr) {
+        index = parseInt(index);
+        const { css, indexes } = finalArr[index];
+
+        if (style === css) {
+          const ind = finalArr[index].indexes;
+          if (ind.indexOf(index1) === -1) {
+            finalArr[index].indexes.push(index1);
+          }
+          if (ind.indexOf(index2) === -1) {
+            finalArr[index].indexes.push(index2);
+          }
+          break;
+        } else {
+          if (index + 1 === finalArr.length)
+            finalArr.push({
+              css: style,
+              indexes: [...indx]
+            });
+        }
+      }
+    } else {
+      finalArr[0] = {
+        css: style,
+        indexes: [index1, index2]
+      };
+    }
+  }
+
+
+  for (const i in arr) {
+    for (const j in arr) {
+      const css = arr[j].css;
+      const isLast = j + 1 === arr.length,
+        firstCss = arr[i].css,
+        secondCss = arr[j].css;
+
+      if (isLast) {
+        if (firstCss === secondCss) {
+          pushToArr(css, i, j);
+          break;
+        } else {
+          pushToArr(css, i, j);
+        }
+      } else {
+        if (firstCss === secondCss) {
+          pushToArr(css, i, j);
+          break;
+        }
+      }
+    }
+  }
+
+  for (const { css, indexes } of finalArr) {
+    for (let ind in indexes) {
+      ind = parseInt(ind);
+      index = indexes[ind];
+      const el = all[index];
+      if (el && css !== "") {
+        el.classList.add(`pxp-el${elCounter}`);
+      }
+
+      if (ind === 0 && css !== "") {
+        stylesheet += `\n.pxp-el${elCounter} {\n${formatCSS(css)}}\n`;
+      }
+
+    }
+    elCounter++;
+  }
+
+  // Set  the HTML and CSS code in the CodeView component.
+  CodeView.data.html.code = clone.innerHTML.replaceAll("<", "\n<");
+  CodeView.data.css.code = `${canvasContainer.style.background !== "" ? "\nbody {\nmargin: 0;\npadding: 0;\nbackground: "+canvasContainer.style.background+";\n}\n" : ""}\n* {\nbox-sizing: border-box;\n}\n${stylesheet}`;
 
   clone.remove(); // Remove the clone.
 }
@@ -277,5 +349,6 @@ const lowerIconInfos = [
   { text: "•••", click: "updateElement('ClassName', 'container', 'className', true)", label: "Class Name" }, // ClassName property
   { text: "#", click: "updateElement('ID', 'main', 'id')", label: "ID" }, // ID property
   { iclass: "bx-rectangle", click: "updateElement('Display', 'flex', 'display')", label: "Display" },
-  { iclass: "bx-direction", click: "updateElement('Position', 'absolute', 'position')", label: "Position" }
+  { iclass: "bx-filter", click: "updateElement('Filter', 'blur(4px)', 'filter')", label: "Filter" },
+  { iclass: "bx-filter", click: "updateElement('Backdrop filter', 'brightness(70%)', 'backdropFilter')", label: "Backdrop Filter" }
 ];

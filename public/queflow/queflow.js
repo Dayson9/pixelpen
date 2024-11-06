@@ -153,7 +153,7 @@ const QueFlow = ((exports) => {
 
   // Sanitizes a string to prevent potential XSS attacks.
   function sanitizeString(str) {
-    let excluded_chars = [{ from: "<script>", to: "&lt;script&gt;" }, { from: "</script>", to: "&lt;/script&gt;" }];
+    let excluded_chars = [{ from: "&gt;", to: ">" }, { from: "&lt;", to: "<" }, { from: "<script>", to: "&lt;script&gt;" }, { from: "</script>", to: "&lt;/script&gt;" }];
 
     str = new String(str);
 
@@ -259,7 +259,7 @@ const QueFlow = ((exports) => {
       console.error("QueFlow Error:\nAn error occurred while processing JSX/HTML:\n" + error);
     }
 
-  
+
     let finalLen = countPlaceholders(doc.innerHTML);
     out = evaluateTemplate(finalLen, doc.innerHTML, instance);
 
@@ -354,7 +354,7 @@ const QueFlow = ((exports) => {
     if (!isParent) {
       attr.push({ attribute: instance.useStrict ? "innerText" : "innerHTML", value: instance.useStrict ? child.innerText : child.innerHTML });
     }
-  
+
 
     for (let { attribute, value } of attr) {
       value = value || "";
@@ -441,8 +441,6 @@ const QueFlow = ((exports) => {
     // Iterate through each child element
     for (let i = 0; i < len; i++) {
       let c = children[i];
-    // Remove annoying innerText attribute
-      c.removeAttribute("innerText")
       // Cache the attributes for faster access
       let attributes = getAttributes(c),
         atLen = attributes.length;
@@ -492,7 +490,7 @@ const QueFlow = ((exports) => {
     } else {
       if (!key.startsWith("on")) {
         child[key] = evaluated;
-        if(child[key] !== evaluated)
+        if (child[key] !== evaluated)
           child.setAttribute(key, evaluated);
       } else {
         child.addEventListener(key.slice(2), evaluated);
@@ -510,7 +508,7 @@ const QueFlow = ((exports) => {
 
   // Updates a component based on changes made to it's data
   function updateComponent(ckey, obj, prev, _new) {
-    if (prev !== _new || _new === '') {
+    if (prev !== _new) {
       // Filters Null elements from the Component
       obj.dataQF = filterNullElements(obj.dataQF);
 
@@ -794,7 +792,7 @@ const QueFlow = ((exports) => {
       // Initiates sub-component's stylesheet 
       initiateStyleSheet(`#${el.id}`, this);
       const rendered = jsxToHTML(newTemplate, this, name);
-      
+
       el.innerHTML = rendered[0];
       this.dataQF = rendered[1];
       this.element = el.id;

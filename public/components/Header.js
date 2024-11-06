@@ -77,7 +77,11 @@ const Header = new subComponent({
        align-items: center;
        justify-content: center;
        box-sizing: border-box;
-        `
+        `,
+    "@media (min-width: 768px)" : {
+      ".left" : "width: 25%;",
+      "#container" : "height: 11vh;"
+    }
   }
 });
 

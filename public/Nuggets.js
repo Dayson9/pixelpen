@@ -177,7 +177,7 @@ const VerticalScrollList = new Nugget({
   stylesheet: {
     ".scrolldiv": `
       width: 100%;
-      max-height: 75%;
+      height: 75%;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -199,7 +199,7 @@ const VerticalScrollList = new Nugget({
     `,
 
     ".scrolldiv .first": `
-      margin-top: 350px;
+      margin-top: 870px;
     `
   }
 })

@@ -12,7 +12,7 @@ const Footer = new subComponent({
   },
   // Define the template for the Footer component.
   template: () => `
-      <div id="container">
+      <div id="container" z-index="2">
         <SlidingIcons { isLowerIcons: true } />
         <InputModal
           { title: "{{ this.data.modalTitle }}", 
@@ -41,7 +41,10 @@ const Footer = new subComponent({
     // Style for the slider element.
     ".slider": `
        transform: translateY(-2px);
-    `
+    `,
+    "@media (min-width: 768px)": {
+      "#container" : "height: 10vh"
+    }
   }
 });
 
