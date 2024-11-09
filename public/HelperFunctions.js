@@ -60,7 +60,7 @@ const toggleMenu = () => {
 
 
 const deleteElement = () => {
-  currentElement = document.getElementById("pxp-current");
+  currentElement = document.querySelector("[data-pxp=pxpEl]");
   if (currentElement) {
     currentElement.remove();
     Highlighter.data.display = "none";
@@ -73,9 +73,9 @@ const deleteElement = () => {
 }
 
 const cloneElement = () => {
-  const curr = document.getElementById("pxp-current");
+  const curr = document.querySelector("[data-pxp=pxpEl]");
   if (curr) {
-    curr.removeAttribute("id");
+    curr.removeAttribute("data-pxp");
   }
 
   const parent = curr?.parentElement;
@@ -86,8 +86,8 @@ const cloneElement = () => {
     Canvas.data.html = out.innerHTML + `${curr.outerHTML}`;
   }
   const children = out.querySelectorAll("*");
-  children[children.length - 1].id = "pxp-current";
-  currentElement = document.getElementById("pxp-current");
+  children[children.length - 1].dataset.pxp = "pxpEl";
+  currentElement = document.querySelector("[data-pxp=pxpEl]");
 
   updateHighlighter();
   addClick();
@@ -105,7 +105,7 @@ const toggleHighlighter = () => {
     Highlighter.data.display = "none";
     Header.data.hideShowIcon = "bx-show";
   } else {
-    if (currentElement.id)
+    if (currentElement.dataset.pxp)
       Highlighter.data.display = "block";
     Header.data.hideShowIcon = "bx-hide";
   }
@@ -153,12 +153,12 @@ const openElementMenu = (isInner) => {
   if (isInner) {
     for (const child of all) {
       child.onclick = function() {
-        if (currentElement.id) {
+        if (currentElement.dataset.pxp) {
           currentElement.innerHTML += formatTag(this.innerText);
           Highlighter.data.display = "block";
           ElementMenu.data.display = "none";
           Canvas.data.html = out.innerHTML;
-          appendNewID();
+          appendNewDataset();
           updateHighlighter();
           addClick();
 

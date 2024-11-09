@@ -34,7 +34,7 @@ const NoticeModal = new subComponent({
     ".modal": `
         width: 80%;
         height: 150px;
-        position: fixed;
+        position: relative;
         top: 15vh;
         left: 10%;
         box-shadow: 2px 3px 16px rgba(0,0,0,0.1);
@@ -45,7 +45,7 @@ const NoticeModal = new subComponent({
         background: white;
         font-family: Inter;
      `,
-    // Style for the Text component inside the modal
+    // Style for the Text Nugget inside the modal
     "span": `
         display: block;
         margin-block: 8px;

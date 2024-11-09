@@ -14,18 +14,38 @@ const updateHighlighter = () => {
   Highlighter.data.offsetY = rect.y - 10;
   Highlighter.data.width = w + 20;
   Highlighter.data.height = h + 20;
+
+  Header.data.hideShowIcon = "bx-hide";
 }
+
+
+function gradientify(el, condition) {
+  /* makes 'el' a gradient text based on whether  'condition' is true or false */
+  if (condition) {
+    el.style["-webkit-text-fill-color"] = "transparent";
+    el.style.webkitBackgroundClip = "text";
+  } else {
+    el.style["-webkit-text-fill-color"] = "";
+    el.style["-webkit-background-clip"] = "";
+    el.style["background"] = "";
+  }
+}
+
 
 // This function updates the modal with information about the selected element's properties.
 const updateElement = (title, placeholder, prop, isAttribute) => {
   // Check if an element is selected.
-  if (currentElement?.id) {
+  if (currentElement?.dataset.pxp) {
     // Set the modal's visibility and content.
     Footer.data.modalDisplay = "flex";
     Footer.data.modalTitle = title;
     Footer.data.modalPlaceholder = placeholder;
     // Set the modal input value to the element's property value.
-    Footer.data.modalInputValue = currentElement.style[prop] ?? currentElement[prop];
+    if (prop === "color") {
+      Footer.data.modalInputValue = currentElement.style["color"] === "" && currentElement.style["background"].includes("linear-gradient") ? currentElement.style["background"] : currentElement.style[prop];
+    } else {
+      Footer.data.modalInputValue = isAttribute ? currentElement[prop] : currentElement.style[prop];
+    }
 
     // Get the modal input element.
     const input = document.getElementById("footer-input");
@@ -33,14 +53,19 @@ const updateElement = (title, placeholder, prop, isAttribute) => {
     // Set up event listener for input changes based on whether it's an attribute or style.
     if (isAttribute) {
       input.oninput = function() {
-        // Update the element's attribute with the input value, handling special cases like transforms.
-        currentElement[prop] = this.value;
-        updateHighlighter(); // Update the highlighter after changing the attribute.
+          // Update the element's attribute with the input value, handling special cases like transforms.
+          currentElement[prop] = this.value;
+          updateHighlighter(); // Update the highlighter after changing the attribute.
       }
     } else {
       input.oninput = function() {
-        // Update the element's style with the input value, handling special cases like transforms.
-        currentElement.style[prop] = this.value;
+        if (prop === "color" && this.value.includes("linear-gradient")) {
+          currentElement.style.background = this.value;
+          gradientify(currentElement, true);
+        } else {
+          currentElement.style[prop] = this.value;
+        }
+
         updateHighlighter(); // Update the highlighter after changing the style.
       }
     }
@@ -48,11 +73,11 @@ const updateElement = (title, placeholder, prop, isAttribute) => {
 }
 
 // This function assigns an ID to the last child element of the "out" container, making it the "current" element.
-const appendNewID = () => {
+const appendNewDataset = () => {
   // Remove the "pxp-current" ID from the current element if it exists.
-  const current = document.getElementById("pxp-current");
+  const current = document.querySelector("[data-pxp=pxpEl]");
   if (current) {
-    current.removeAttribute("id");
+    current.removeAttribute("data-pxp");
   }
 
   // Get all child elements of the "out" container and select the last one.
@@ -61,8 +86,8 @@ const appendNewID = () => {
   const curr = children[length - 1];
 
   // Assign the "pxp-current" ID to the last child element, making it the current element.
-  curr.id = "pxp-current";
-  currentElement = document.getElementById('pxp-current');
+  curr.dataset.pxp = "pxpEl";
+  currentElement = document.querySelector("[data-pxp=pxpEl");
 }
 
 // This function formats a tag name into valid HTML markup, handling closing tags and special cases.
@@ -97,7 +122,7 @@ const appendNewElement = (tagName) => {
   ElementMenu.data.display = "none";
 
   // Assign the ID to the new element, update the highlighter and add click event listeners.
-  appendNewID();
+  appendNewDataset();
   updateHighlighter();
   addClick();
 
@@ -114,11 +139,11 @@ const addClick = () => {
     el.onclick = function(e) {
       e.stopPropagation(); // Prevent event from bubbling up.
       if (currentElement?.tagName) { // Remove the ID from the previous current element.
-        currentElement.removeAttribute("id");
+        currentElement.removeAttribute("data-pxp");
       }
-      this.id = "pxp-current"; // Set the ID of the clicked element as "pxp-current".
+      this.dataset.pxp = "pxpEl"; // Set the ID of the clicked element as "pxp-current".
       localStorage.setItem("pxp-html", out.innerHTML); // Update the HTML in localStorage.
-      currentElement = document.getElementById('pxp-current'); // Update the current element.
+      currentElement = document.querySelector("[data-pxp=pxpEl]"); // Update the current element.
       updateHighlighter(); // Update the highlighter.
       Highlighter.data.display = "block"; // Show the highlighter.
     }
@@ -127,8 +152,16 @@ const addClick = () => {
 
 // This function resets the modal and updates the localStorage with the current HTML.
 const reset = () => {
+
   Footer.data.modalDisplay = "none"; // Hide the modal.
+  Canvas.data.html = Canvas.data.html.replace('"=""', '');
+  alert(out.innerHTML)
   localStorage.setItem("pxp-html", out.innerHTML); // Update the HTML in localStorage.
+
+  currentElement = document.querySelector("[data-pxp=pxpEl]");
+
+  updateHighlighter();
+  addClick();
 }
 
 // This function loads assets from localStorage if they exist.
@@ -138,8 +171,10 @@ const loadAssets = () => {
     canvasBG = localStorage.getItem("pxp-canvas-bg");
   if (pxpHTML) {
     // Update the Canvas data with the HTML from localStorage.
-    Canvas.data.html = pxpHTML;
-    currentElement = document.getElementById("pxp-current"); // Get the current element if it exists.
+    Canvas.data.html = pxpHTML.replace(/ text;?/g, ";\n-webkit-background-clip: text;");
+    currentElement = document.querySelector("[data-pxp=pxpEl]"); // Get the current element if it exists.
+
+    const all = out.querySelectorAll("*");
 
     // Add click event listeners and update the highlighter if a current element exists.
     addClick();
@@ -154,8 +189,15 @@ const loadAssets = () => {
   }
 
   // Hide the highlighter when the mouse moves or touches the "out" container.
-  out.ontouchmove = () => Highlighter.data.display = "none";
-  out.onmousemove = () => Highlighter.data.display = "none";
+  out.ontouchmove = () => {
+    Highlighter.data.display = "none";
+    Header.data.hideShowIcon = "bx-show";
+  }
+
+  out.onmousemove = () => {
+    Highlighter.data.display = "none";
+    Header.data.hideShowIcon = "bx-show";
+  }
 }
 
 // This function formats CSS by adding line breaks after semicolons.
@@ -165,6 +207,7 @@ const formatCSS = (css) => css.replaceAll(";", ";\n");
 const openCodeView = () => {
   // Show the CodeView component and toggle the menu.
   CodeView.data.show = true;
+  Canvas.data.screenBlur = 8;
   toggleMenu();
 
   // Create a clone of the "out" container.
@@ -177,8 +220,8 @@ const openCodeView = () => {
   all.forEach((child, index) => {
 
     // Remove the "pxp-current" ID if it exists.
-    if (child.id == "pxp-current") {
-      child.removeAttribute("id");
+    if (child.dataset.pxp == "pxpEl") {
+      child.removeAttribute("data-pxp");
     }
 
     arr.push({ css: child.style.cssText });
@@ -227,41 +270,66 @@ const openCodeView = () => {
 
 
   for (const i in arr) {
+    const firstCss = arr[i].css;
     for (const j in arr) {
       const css = arr[j].css;
       const isLast = j + 1 === arr.length,
-        firstCss = arr[i].css,
         secondCss = arr[j].css;
 
       if (isLast) {
-        if (firstCss === secondCss) {
-          pushToArr(css, i, j);
-          break;
-        } else {
-          pushToArr(css, i, j);
-        }
+        pushToArr(css, [i, j]);
       } else {
         if (firstCss === secondCss) {
-          pushToArr(css, i, j);
+          pushToArr(css, [i, j]);
           break;
         }
       }
     }
   }
 
-  for (const { css, indexes } of finalArr) {
-    for (let ind in indexes) {
-      ind = parseInt(ind);
-      index = indexes[ind];
-      const el = all[index];
-      if (el && css !== "") {
-        el.classList.add(`pxp-el${elCounter}`);
-      }
+  const removeDuplicates = (array) => {
+    let output = [];
 
-      if (ind === 0 && css !== "") {
-        stylesheet += `\n.pxp-el${elCounter} {\n${formatCSS(css)}}\n`;
+    for (const num of array) {
+      if (!output.includes(num)) {
+        output.push(num);
       }
+    }
+    return output;
+  }
 
+
+  for (let { css, indexes } of finalArr) {
+    indexes = removeDuplicates(indexes);
+    if (indexes.length === 1) {
+      const ind = parseInt(indexes[0]);
+      const el = all[ind];
+      if (el?.hasAttribute("id")) {
+        if (css !== "") {
+          stylesheet += `\n#${el.id} {\n${formatCSS(css).replaceAll(" text;", ';\n-webkit-background-clip: text;')}}\n`;
+        }
+      } else {
+        if (css !== "" && el.className.indexOf("pxp-el") === -1) {
+          el.classList.add(`pxp-el${elCounter}`);
+        }
+
+        stylesheet += `\n.pxp-el${elCounter} {\n${formatCSS(css).replaceAll(" text;", ';\n-webkit-background-clip: text;')}}\n`;
+      }
+    } else {
+      for (let ind in indexes) {
+        ind = parseInt(ind);
+        index = indexes[ind];
+        const el = all[index];
+
+        if (el && css !== "" && el.className.indexOf("pxp-el") === -1) {
+          el.classList.add(`pxp-el${elCounter}`);
+        }
+
+        if (ind === 0 && css !== "") {
+          stylesheet += `\n.pxp-el${elCounter} {\n${formatCSS(css).replaceAll(" text;", ';\n-webkit-background-clip: text;')}}\n`;
+        }
+
+      }
     }
     elCounter++;
   }
@@ -295,7 +363,7 @@ const openCSS = () => {
 
   CodeView.data.fluid.width = 7;
   setTimeout(() => {
-    CodeView.data.fluid.x = window.innerWidth <= 768 ? 100 : (window.innerWidth / 4) - 40; // Adjust x position for different screen sizes.
+    CodeView.data.fluid.x = window.innerWidth <= 768 ? 100 : (window.innerWidth / 4) - 40; // Adjust x positions.
     CodeView.data.fluid.width = 50;
     CodeView.data.isHTML = false; // Set the CSS view flag.
   }, 400);
@@ -317,9 +385,7 @@ const copyToClipboard = async (text) => {
 
 
 // Function for saving canvas background 
-const saveCanvasBG = (value) => {
-  localStorage.setItem("pxp-canvas-bg", value);
-}
+const saveCanvasBG = (value) => localStorage.setItem("pxp-canvas-bg", value);
 
 
 // Initialize variables.
@@ -350,5 +416,6 @@ const lowerIconInfos = [
   { text: "#", click: "updateElement('ID', 'main', 'id')", label: "ID" }, // ID property
   { iclass: "bx-rectangle", click: "updateElement('Display', 'flex', 'display')", label: "Display" },
   { iclass: "bx-filter", click: "updateElement('Filter', 'blur(4px)', 'filter')", label: "Filter" },
-  { iclass: "bx-filter", click: "updateElement('Backdrop filter', 'brightness(70%)', 'backdropFilter')", label: "Backdrop Filter" }
+  { iclass: "bx-filter", click: "updateElement('Backdrop filter', 'brightness(70%)', 'backdropFilter')", label: "Backdrop Filter" },
+  { iclass: "bx-link", click: "updateElement('SRC', 'image.jpeg', 'src', true)", label: "SRC" }
 ];

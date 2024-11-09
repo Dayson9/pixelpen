@@ -377,7 +377,7 @@ const QueFlow = ((exports) => {
       }
 
       if (hasTemplate) {
-        ((child.style[attribute] || child.style[attribute] === "" && !isSVGElement) && attribute.toLowerCase() !== "src") ? arr.push({ template: value, key: "style." + attribute, qfid: id }): arr.push({ template: value, key: attribute, qfid: id });
+        ((child.style[attribute] || child.style[attribute] === "" && !isSVGElement) && attribute.toLowerCase() !== "src" || attribute === "filter") ? arr.push({ template: value, key: "style." + attribute, qfid: id }): arr.push({ template: value, key: attribute, qfid: id });
       }
     }
     // Returns arr 
@@ -508,7 +508,7 @@ const QueFlow = ((exports) => {
 
   // Updates a component based on changes made to it's data
   function updateComponent(ckey, obj, prev, _new) {
-    if (prev !== _new) {
+    if (prev !== _new || _new === "") {
       // Filters Null elements from the Component
       obj.dataQF = filterNullElements(obj.dataQF);
 

@@ -38,7 +38,7 @@ const CodeView = new subComponent({
   template: () => {
     return `
       <div id='container' display={{ this.data.show ? "block" : "none" }}>
-        <span id='cancel' onclick={{ this.data.show = false; }}>×</span>
+        <span id='cancel' onclick={{ Canvas.data.screenBlur = 0; this.data.show = false; }}>×</span>
         <Text { text: "Code Preview", size: 20, weight: 600, color: "rgba(19, 40, 67, 1)" } />
        <div id='col'>
         <div id='row'>
@@ -77,6 +77,7 @@ const CodeView = new subComponent({
         box-sizing: border-box;
         background: white;
         font-family: Inter;
+        z-index: 2;
     `,
 
     // Styles for the row element.

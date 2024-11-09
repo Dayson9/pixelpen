@@ -8,7 +8,8 @@ const Canvas = new subComponent({
     // An empty string to store the HTML content to be rendered
     html: "",
     containerBG: localStorage.getItem("pxp-canvas-bg") || "white",
-    modalDisplay: "none"
+    modalDisplay: "none",
+    screenBlur: 7
   },
   // Define the template for the Canvas component
   template: () => `
@@ -28,8 +29,8 @@ const Canvas = new subComponent({
        </div>
        
        <svg id='main-c'>
-        <!-- Create a foreignObject element to embed HTML content within the SVG -->
-        <foreignObject x="0" y="0" width="100vw" height="100%" id='out' onclick={{ Highlighter.data.display='none'; }}>{{ this.data.html }}</foreignObject>
+        <!-- Create a foreignObject element to embed HTML content within -->
+        <foreignObject x="0" y="0" width="100vw" height="100%" id='out' onclick={{ Highlighter.data.display='none'; }} filter={{ "blur("+this.data.screenBlur+"px)" }}>{{ this.data.html }}</foreignObject>
        </svg>
       `,
   // Define the stylesheet for the Canvas component
@@ -57,7 +58,7 @@ const Canvas = new subComponent({
         margin: 0px;
       `,
     // Style the foreignObject element to allow vertical scrolling
-    "foreignObject": "overflow-y: scroll",
+    "foreignObject": "overflow-y: scroll; padding-bottom: 50px;",
     // Style all child elements of the foreignObject to ensure consistent box sizing
     "foreignObject *": `
         box-sizing: border-box;

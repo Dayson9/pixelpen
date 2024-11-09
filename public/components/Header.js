@@ -39,6 +39,7 @@ const Header = new subComponent({
       justify-content: space-between;
       align-items: center;
     `,
+    "#container > *" : "position: relative;",
     ".left, .right" : "height: 100%;", // Set height for left and right sections
     ".left" : `
       width: 40%;
