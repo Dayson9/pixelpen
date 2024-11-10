@@ -9,7 +9,7 @@ const Canvas = new subComponent({
     html: "",
     containerBG: localStorage.getItem("pxp-canvas-bg") || "white",
     modalDisplay: "none",
-    screenBlur: 7
+    screenBlur: 0
   },
   // Define the template for the Canvas component
   template: () => `

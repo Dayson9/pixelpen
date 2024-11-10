@@ -2,20 +2,22 @@
 
 // This function updates the highlighter element's position and size based on the current element.
 const updateHighlighter = () => {
-  // Get the bounding rectangle of the current element.
-  const rect = currentElement?.getBoundingClientRect();
+  if (currentElement?.tagName) {
+    // Get the bounding rectangle of the current element.
+    const rect = currentElement.getBoundingClientRect();
 
-  // Extract width, height, x and y coordinates from the bounding rectangle.
-  const w = rect.width,
-    h = rect.height;
+    // Extract width, height, x and y coordinates from the bounding rectangle.
+    const w = rect.width,
+      h = rect.height;
 
-  // Update the highlighter's data with calculated position and size.
-  Highlighter.data.offsetX = rect.x - 10;
-  Highlighter.data.offsetY = rect.y - 10;
-  Highlighter.data.width = w + 20;
-  Highlighter.data.height = h + 20;
+    // Update the highlighter's data with calculated position and size.
+    Highlighter.data.offsetX = rect.x - 3;
+    Highlighter.data.offsetY = rect.y - 3;
+    Highlighter.data.width = w + 4;
+    Highlighter.data.height = h + 4;
 
-  Header.data.hideShowIcon = "bx-hide";
+    Header.data.hideShowIcon = "bx-hide";
+  }
 }
 
 
@@ -53,9 +55,9 @@ const updateElement = (title, placeholder, prop, isAttribute) => {
     // Set up event listener for input changes based on whether it's an attribute or style.
     if (isAttribute) {
       input.oninput = function() {
-          // Update the element's attribute with the input value, handling special cases like transforms.
-          currentElement[prop] = this.value;
-          updateHighlighter(); // Update the highlighter after changing the attribute.
+        // Update the element's attribute with the input value, handling special cases like transforms.
+        currentElement[prop] = this.value;
+        updateHighlighter(); // Update the highlighter after changing the attribute.
       }
     } else {
       input.oninput = function() {
@@ -115,7 +117,7 @@ const formatTag = (tagName) => {
 // This function appends a new HTML element to the "out" container.
 const appendNewElement = (tagName) => {
   // Add the formatted HTML tag to the Canvas data.
-  Canvas.data.html += formatTag(tagName);
+  Canvas.data.html = out.innerHTML + formatTag(tagName);
 
   // Update the visibility of the highlighter and element menu.
   Highlighter.data.display = "block";
@@ -138,7 +140,7 @@ const addClick = () => {
     // Add a click event listener to each child element.
     el.onclick = function(e) {
       e.stopPropagation(); // Prevent event from bubbling up.
-      if (currentElement?.tagName) { // Remove the ID from the previous current element.
+      if (currentElement?.tagName) { // Remove the data-pxp attribute from the current element.
         currentElement.removeAttribute("data-pxp");
       }
       this.dataset.pxp = "pxpEl"; // Set the ID of the clicked element as "pxp-current".
@@ -155,7 +157,6 @@ const reset = () => {
 
   Footer.data.modalDisplay = "none"; // Hide the modal.
   Canvas.data.html = Canvas.data.html.replace('"=""', '');
-  alert(out.innerHTML)
   localStorage.setItem("pxp-html", out.innerHTML); // Update the HTML in localStorage.
 
   currentElement = document.querySelector("[data-pxp=pxpEl]");
@@ -389,7 +390,8 @@ const saveCanvasBG = (value) => localStorage.setItem("pxp-canvas-bg", value);
 
 
 // Initialize variables.
-var elCounter = 0, // Element counter for generating unique class names.
+var currentHTML = '',
+  countDownInterval, elCounter = 0, // Element counter for generating unique class names.
   currentElement = out = canvasContainer = {}; // Initialize current element and out container.
 
 // Define an array of information for the lower menu icons.
@@ -415,6 +417,9 @@ const lowerIconInfos = [
   { text: "•••", click: "updateElement('ClassName', 'container', 'className', true)", label: "Class Name" }, // ClassName property
   { text: "#", click: "updateElement('ID', 'main', 'id')", label: "ID" }, // ID property
   { iclass: "bx-rectangle", click: "updateElement('Display', 'flex', 'display')", label: "Display" },
+  { iclass: "bx-rectangle", click: "updateElement('Flex Direction', 'row', 'flexDirection')", label: "Flex-direction" },
+  { iclass: "bx-rectangle", click: "updateElement('Justify', 'space-between', 'justifyContent')", label: "Justify" },
+  { iclass: "bx-rectangle", click: "updateElement('Align', 'center', 'alignItems')", label: "Align" },
   { iclass: "bx-filter", click: "updateElement('Filter', 'blur(4px)', 'filter')", label: "Filter" },
   { iclass: "bx-filter", click: "updateElement('Backdrop filter', 'brightness(70%)', 'backdropFilter')", label: "Backdrop Filter" },
   { iclass: "bx-link", click: "updateElement('SRC', 'image.jpeg', 'src', true)", label: "SRC" }

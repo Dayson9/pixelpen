@@ -111,6 +111,18 @@ const toggleHighlighter = () => {
   }
 }
 
+const startCountDown = () => {
+  NoticeModal.data.undoCounter = 7;
+  countDownInterval = setInterval(() => {
+    if (NoticeModal.data.undoCounter === 1) {
+      clearInterval(countDownInterval);
+      NoticeModal.data.undoDisplay = 'none';
+    } else {
+      NoticeModal.data.undoCounter--;
+    }
+  }, 1000);
+}
+
 
 const openModal = (title, msg, actionMsg) => {
   NoticeModal.data.headingMsg = title;
@@ -124,6 +136,9 @@ const openModal = (title, msg, actionMsg) => {
   switch (actionMsg) {
     case 'Delete':
       btn.onclick = () => {
+        currentHTML = out.innerHTML;
+        NoticeModal.data.undoDisplay = 'flex';
+        startCountDown();
         deleteElement();
         NoticeModal.data.shown = false;
         toggleMenu();
@@ -132,6 +147,9 @@ const openModal = (title, msg, actionMsg) => {
 
     case 'Clear':
       btn.onclick = () => {
+        currentHTML = Canvas.data.html;
+        NoticeModal.data.undoDisplay = 'flex';
+        startCountDown();
         clearCanvas();
         NoticeModal.data.shown = false;
         toggleMenu();
