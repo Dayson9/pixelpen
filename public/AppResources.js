@@ -119,6 +119,7 @@ const appendNewElement = (tagName) => {
   // Add the formatted HTML tag to the Canvas data.
   Canvas.data.html = out.innerHTML + formatTag(tagName);
 
+
   // Update the visibility of the highlighter and element menu.
   Highlighter.data.display = "block";
   ElementMenu.data.display = "none";
@@ -422,5 +423,6 @@ const lowerIconInfos = [
   { iclass: "bx-rectangle", click: "updateElement('Align', 'center', 'alignItems')", label: "Align" },
   { iclass: "bx-filter", click: "updateElement('Filter', 'blur(4px)', 'filter')", label: "Filter" },
   { iclass: "bx-filter", click: "updateElement('Backdrop filter', 'brightness(70%)', 'backdropFilter')", label: "Backdrop Filter" },
-  { iclass: "bx-link", click: "updateElement('SRC', 'image.jpeg', 'src', true)", label: "SRC" }
+  { iclass: "bx-link", click: "updateElement('SRC', 'image.jpeg', 'src', true)", label: "SRC" },
+  { iclass: "bx-circle", click: "updateElement('Clip-path', 'polygon(20% 30%)', 'clipPath')", label: "Clip-path" }
 ];

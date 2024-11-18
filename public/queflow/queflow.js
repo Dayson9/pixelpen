@@ -398,16 +398,15 @@ const QueFlow = ((exports) => {
 
 
   function update(child, key, evaluated) {
-    const isSVGElement = child instanceof SVGElement;
     if (key.indexOf("style.") > -1) {
       let sliced = key.slice(6);
       child.style[sliced] = evaluated;
     } else {
       if (!key.startsWith("on")) {
-        if (isSVGElement) {
-          child.setAttribute(key, evaluated);
-        } else {
+        if (child[key] || child[key] === "") {
           child[key] = evaluated;
+        } else {
+          child.setAttribute(key, evaluated);
         }
       } else {
         child.addEventListener(key.slice(2), evaluated);
@@ -531,6 +530,18 @@ const QueFlow = ((exports) => {
     }
   }
 
+  const removeEvents = (nodeList) => {
+    nodeList.forEach((child) => {
+      const attributes = getAttributes(child);
+
+      for (var { attribute, value } of attributes) {
+        if (attribute.slice(0, 2) === "on") {
+          const fn = child[attribute];
+          child.removeEventListener(attribute, fn);
+        }
+      }
+    });
+  }
 
   class QComponent {
     constructor(selector = "", options = {}) {
@@ -634,6 +645,13 @@ const QueFlow = ((exports) => {
       this.isFrozen = false;
     }
 
+    // removes the component's element from the DOM
+    destroy() {
+      const parent = [this.element, ...this.element.querySelectorAll('*')];
+      removeEvents(parent);
+
+      this.element.remove();
+    }
   }
 
 
@@ -712,9 +730,26 @@ const QueFlow = ((exports) => {
 
       el.innerHTML = rendered[0];
       this.dataQF = rendered[1];
-      this.element = el.id;
+      this.element = el;
 
       return rendered[0];
+    }
+    
+    freeze() {
+      // Freezes component
+      this.isFrozen = true;
+    }
+
+    unfreeze() {
+      // Unfreezes component
+      this.isFrozen = false;
+    }
+    // removes the component's element from the DOM
+    destroy() {
+      const parent = [this.element, ...this.element.querySelectorAll('*')];
+      removeEvents(parent);
+
+      this.element.remove();
     }
   }
 
