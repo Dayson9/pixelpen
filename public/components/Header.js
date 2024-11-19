@@ -7,20 +7,20 @@ const { subComponent } = QueFlow; // Import the subComponent class from QueFlow
 const Header = new subComponent({
   // Define reactive data
   data: {
-    hideShowIcon: "bx-hide" // property for toggling the menu icon class
+    hideShowIcon: 'bx-hide' // property for toggling the menu icon class
   },
   // Define the template for the Header component
   template: () => `
     <div id='container'>
       <div class='left'>
-        <Text { text: "PixelPen", weight: 600, size: 18, color: 'white', font: '"Bangers"' } />
+        <Text { text: 'PixelPen', weight: 600, size: 18, color: 'white', font: '"Bangers"' } />
       </div>
       <div class='right'>
         <div id='plus' onclick={{ openElementMenu(false); }}>
           <i class='bx bx-plus'></i>
         </div>
        <div class='ham' color='white' onclick={{ toggleHighlighter(); }}>
-         <i class={{ "bx "+this.data.hideShowIcon }}></i>
+         <i class={{ 'bx '+this.data.hideShowIcon }}></i>
        </div>
         <Menu/>
       </div>
@@ -29,7 +29,7 @@ const Header = new subComponent({
   `,
   // Define the stylesheet for the Header component
   stylesheet: {
-    "#container" : `
+    '#container' : `
       width: 100%;
       height: 60px;
       box-sizing: border-box;
@@ -39,9 +39,9 @@ const Header = new subComponent({
       justify-content: space-between;
       align-items: center;
     `,
-    "#container > *" : "position: relative;",
-    ".left, .right" : "height: 100%;", // Set height for left and right sections
-    ".left" : `
+    '#container > *' : 'position: relative;',
+    '.left, .right' : 'height: 100%;', // Set height for left and right sections
+    '.left' : `
       width: 40%;
       height: 50px;
       display: flex;
@@ -53,12 +53,12 @@ const Header = new subComponent({
       margin-left: 5px;
       border: 2px solid rgba(34, 70, 116, 1);
     `,
-     ".left span" : `
+     '.left span' : `
       font-size: 18px;
       letter-spacing: 4px;
      `
     ,
-    ".right" : `
+    '.right' : `
       width: 44%;
       padding-block: 5px;
       box-sizing: border-box;
@@ -69,7 +69,7 @@ const Header = new subComponent({
       align-items: center;
       margin-left: 40px;
     `,
-    ".ham": `
+    '.ham': `
        width: 50px;
        height: 50px;
        border-radius: 50%;
@@ -79,15 +79,15 @@ const Header = new subComponent({
        justify-content: center;
        box-sizing: border-box;
         `,
-    "@media (min-width: 768px)" : {
-      ".left" : "width: 25%;",
-      "#container" : "height: 11vh;"
+    '@media (min-width: 768px)' : {
+      '.left' : 'width: 25%;',
+      '#container' : 'height: 11vh;'
     }
   }
 });
 
 // Make the Header component accessible globally
-globalThis["Header"] = Header;
+globalThis['Header'] = Header;
 
 // Export the Header component
 export default Header;

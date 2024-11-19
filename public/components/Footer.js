@@ -5,27 +5,27 @@ const { subComponent } = QueFlow;
 const Footer = new subComponent({
   // Define the reactive data
   data: {
-    modalDisplay: "none", 
-    modalTitle: "InnerText",
+    modalDisplay: 'none', 
+    modalTitle: 'InnerText',
     modalPlaceholder: 'Hello World',
     modalInputValue: ''
   },
   // Define the template for the Footer component.
   template: () => `
-      <div id="container" z-index="2">
+      <div id='container' z-index='2'>
         <SlidingIcons { isLowerIcons: true } />
         <InputModal
-          { title: "{{ this.data.modalTitle }}", 
-          id: "footer-input", 
-          placeholder: "{{ this.data.modalPlaceholder }}", 
-          value: "{{ this.data.modalInputValue }}", 
+          { title: '{{ this.data.modalTitle }}', 
+          id: 'footer-input', 
+          placeholder: '{{ this.data.modalPlaceholder }}', 
+          value: '{{ this.data.modalInputValue }}', 
           click: 'reset();' } />
       </div>
   `,
   // Define the stylesheet for the Footer component.
   stylesheet: {
     // Style for the container element.
-    "#container": `
+    '#container': `
       width: 100%;
       height: 52px;
       box-sizing: border-box;
@@ -39,17 +39,17 @@ const Footer = new subComponent({
       bottom: -10px
     `,
     // Style for the slider element.
-    ".slider": `
+    '.slider': `
        transform: translateY(-2px);
     `,
-    "@media (min-width: 768px)": {
-      "#container" : "height: 10vh"
+    '@media (min-width: 768px)': {
+      '#container' : 'height: 10vh'
     }
   }
 });
 
 // Attach the Footer component to the global scope for easy access.
-globalThis["Footer"] = Footer;
+globalThis['Footer'] = Footer;
 
 // Export the Footer component as the default export.
 export default Footer;

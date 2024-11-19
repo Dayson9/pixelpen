@@ -8,16 +8,16 @@ const CodeView = new subComponent({
     // Data for HTML code.
     html: {
       // Color of the HTML text.
-      color: "rgba(19, 40, 67, 1)",
+      color: 'rgba(19, 40, 67, 1)',
       // HTML code to be displayed.
-      code: ""
+      code: ''
     },
     // Data for CSS code.
     css: {
       // Color of the CSS text.
-      color: "rgba(0,0,0,0.5)",
+      color: 'rgba(0,0,0,0.5)',
       // CSS code to be displayed.
-      code: ""
+      code: ''
     },
     // Data for the fluid slider.
     fluid: {
@@ -37,25 +37,25 @@ const CodeView = new subComponent({
   // Define the template for the component.
   template: () => {
     return `
-      <div id='container' display={{ this.data.show ? "block" : "none" }}>
+      <div id='container' display={{ this.data.show ? 'block' : 'none' }}>
         <span id='cancel' onclick={{ Canvas.data.screenBlur = 0; this.data.show = false; }}>×</span>
-        <Text { text: "Code Preview", size: 20, weight: 600, color: "rgba(19, 40, 67, 1)" } />
+        <Text { text: 'Code Preview', size: 20, weight: 600, color: 'rgba(19, 40, 67, 1)' } />
        <div id='col'>
         <div id='row'>
-          <Text { text: "HTML", size: 20, weight: 400, color: "{{ this.data.html.color }}", click: "openHTML()" } />
-          <Text { text: "CSS", size: 20, weight: 400, color: "{{ this.data.css.color }}", click: "openCSS()" } />  
+          <Text { text: 'HTML', size: 20, weight: 400, color: '{{ this.data.html.color }}', click: 'openHTML()' } />
+          <Text { text: 'CSS', size: 20, weight: 400, color: '{{ this.data.css.color }}', click: 'openCSS()' } />  
         </div>
         
         <div id='fluid'>
-          <div width={{ this.data.fluid.width+"%" }} transform={{ "translateX("+this.data.fluid.x+"px)" }}></div>
+          <div width={{ this.data.fluid.width+'%' }} transform={{ 'translateX('+this.data.fluid.x+'px)' }}></div>
         </div>
        </div>
        <div id='code'>
         <i class='bx bx-copy' onclick={{ copyToClipboard(code.innerText) }} id='copy'></i>
-         <Text { text: "{{ this.data.isHTML ? this.data.html.code : this.data.css.code }}", size: 14, weight: 300, color: "rgba(19, 40, 67, 1)", family: "Monospace" } />
+         <Text { text: '{{ this.data.isHTML ? this.data.html.code : this.data.css.code }}', size: 14, weight: 300, color: 'rgba(19, 40, 67, 1)', family: 'Monospace' } />
        </div>
-       <div class='toast' opacity={{ this.data.toastOpacity }} transition={{ ".5s" }}>
-         <Text { text: "Copied", color: "white", size: 12, weight: 300 } />
+       <div class='toast' opacity={{ this.data.toastOpacity }} transition={{ '.5s' }}>
+         <Text { text: 'Copied', color: 'white', size: 12, weight: 300 } />
        </div>
       </div>
     `
@@ -64,7 +64,7 @@ const CodeView = new subComponent({
   // Define the stylesheet for the component.
   stylesheet: {
     // Styles for the container element.
-    "#container" : `
+    '#container' : `
         width: 80%;
         height: 370px;
         position: fixed;
@@ -81,7 +81,7 @@ const CodeView = new subComponent({
     `,
 
     // Styles for the row element.
-    "#row" : `
+    '#row' : `
       width: 100%;
       height: 40px;
       display: flex;
@@ -92,7 +92,7 @@ const CodeView = new subComponent({
     `,
 
     // Styles for the column element.
-    "#col" : `
+    '#col' : `
       width: 80%;
       height: 40px;
       display: flex;
@@ -103,7 +103,7 @@ const CodeView = new subComponent({
     `,
 
     // Styles for the fluid slider element.
-    "#fluid" : `
+    '#fluid' : `
       width: 83%;
       height: 6px;
       border-radius: 4px;
@@ -112,7 +112,7 @@ const CodeView = new subComponent({
     `,
 
     // Styles for the slider bar.
-    "#fluid div" : `
+    '#fluid div' : `
       width: 50%;
       height: 100%;
       border-radius: inherit;
@@ -121,7 +121,7 @@ const CodeView = new subComponent({
     `,
 
     // Styles for the code display area.
-    "#code": `
+    '#code': `
       width: 82%;
       height: 70%;
       border-radius: inherit;
@@ -134,12 +134,12 @@ const CodeView = new subComponent({
     `,
 
     // Styles for the row elements (HTML and CSS).
-    "#row span" : `
+    '#row span' : `
       transition: .9s;
     `,
 
     // Styles for the cancel button.
-    "#cancel" : `
+    '#cancel' : `
       font-size: 28px;
       position: absolute;
       right: 10px;
@@ -148,14 +148,14 @@ const CodeView = new subComponent({
     `,
 
     // Styles for the copy button.
-    "#copy" : `
+    '#copy' : `
       font-size: 25px;
       position: absolute;
       right: 12%;
       top: 30%;
       color: rgba(19, 40, 67, 1);      
     `,
-    ".toast" : `
+    '.toast' : `
       max-width: 70px;
       height: auto;
       padding-inline: 2px;
@@ -166,9 +166,9 @@ const CodeView = new subComponent({
     `,
 
     // Media query for screen sizes larger than 768 pixels.
-    "@media (min-width: 768px)" : {
+    '@media (min-width: 768px)' : {
       // Styles for the container element on larger screens.
-      "#container" : `
+      '#container' : `
         width: 55%;
         left: 22.5%;
       `

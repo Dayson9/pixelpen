@@ -6,7 +6,7 @@ const ElementMenu = new subComponent({
   // Define reactive data for the component.
   data: {
     // Initially set the display to 'none' to hide the menu.
-    display: "none"
+    display: 'none'
   },
   // Define the template for the component's HTML structure.
   template: () => {
@@ -15,19 +15,19 @@ const ElementMenu = new subComponent({
       <div id='container' display={{ this.data.display }}>
       <!-- Header div for the menu -->
         <div class='header'>
-        <!-- Text component with "Elements" text -->
-          <Text { text: "Elements", weight: 600, size: 18, color: 'white' } /> 
+        <!-- Text component with 'Elements' text -->
+          <Text { text: 'Elements', weight: 600, size: 18, color: 'white' } /> 
           <!-- Cancel button to hide the menu -->
-          <span class='cancel' onclick={{ this.data.display = "none" }}>×</span>
+          <span class='cancel' onclick={{ this.data.display = 'none' }}>×</span>
         </div>
         <!-- VerticalScrollList to display HTML elements -->
-        <VerticalScrollList { list: ["div", "h1", "h2", "h3", "h4", "h5", "h6", "button", "input", "p", "span", "i", "pre", "img", "header", "article", "main", "footer", "aside", "ul", "ol", "code", "blockquote", "cite", "select", "option", "iframe", "hr"] } />
+        <VerticalScrollList { list: ['div', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'button', 'input', 'p', 'span', 'i', 'pre', 'img', 'header', 'article', 'main', 'footer', 'aside', 'ul', 'ol', 'code', 'blockquote', 'cite', 'select', 'option', 'iframe', 'hr'] } />
       </div>
     `
   },
   // Define the stylesheet for the component.
   stylesheet: {
-    "#container": `
+    '#container': `
        width: 210px;
        height: 260px;
        border-radius: 10px;
@@ -39,7 +39,7 @@ const ElementMenu = new subComponent({
        text-align: center;
     `,
     // Styles for the container div.
-    ".header": `
+    '.header': `
       width: 100%;
       height: 60px;
       background: rgba(80, 157, 255);
@@ -53,7 +53,7 @@ const ElementMenu = new subComponent({
       padding-inline: 10px;
     `,
     // Styles for the header div.
-    ".header .cancel": `
+    '.header .cancel': `
       font-size: 25px;
     `
     // Styles for the cancel button within the header.
@@ -61,7 +61,7 @@ const ElementMenu = new subComponent({
 });
 
 // Make the ElementMenu component globally accessible.
-globalThis["ElementMenu"] = ElementMenu;
+globalThis['ElementMenu'] = ElementMenu;
 
 // Export the ElementMenu component as the default export.
 export default ElementMenu;

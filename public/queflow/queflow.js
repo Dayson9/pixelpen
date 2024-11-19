@@ -148,7 +148,9 @@ const QueFlow = ((exports) => {
         // Parse extracted string
         parsed = parse();
         // Replace placeholder expression with evaluated value
-        out = out.replace("{{" + extracted + "}}", sanitizeString(parsed));
+        if (parsed != undefined) {
+          out = out.replace("{{" + extracted + "}}", sanitizeString(parsed));
+        }
       }
     } catch (error) {
       // Prevents unnecessary errors 
@@ -217,6 +219,8 @@ const QueFlow = ((exports) => {
         } else {
           data.push(...generateComponentData(c, true, instance));
         }
+        // Remove duplicate innerText attribute
+        c.removeAttribute("innertext");
       }
     } catch (error) {
       console.error("QueFlow Error:\nAn error occurred while processing JSX/HTML:\n" + error);
@@ -509,7 +513,7 @@ const QueFlow = ((exports) => {
   const lintPlaceholders = (html) => {
     const attributeRegex = new RegExp("\\s\\w+\\s*[=]\\s*\\{\\{[^\\}\\}]+\\}\\}", "g"),
       eventRegex = new RegExp("\\s(on)\\w+\\s*[=]\\s*\\{\\{[^\\}\\}]+\\}\\}", "g");
-
+  
     if (eventRegex.test(html)) {
       html = html.replace(eventRegex, (match) => {
         match = match.replaceAll("'", "\`");
@@ -517,12 +521,12 @@ const QueFlow = ((exports) => {
         return rpl.replace(/}}$/, "\'");
       });
     }
-
-
+  
+  
     if (attributeRegex.test(html)) {
       const out = html.replace(attributeRegex, (match) => {
-        const rpl = match.replace("{{", "'{{");
-        return rpl.replace(/}}$/, "}}'");
+        const rpl = match.replace("{{", '"{{');
+        return rpl.replace(/}}$/, '}}"');
       });
       return out;
     } else {

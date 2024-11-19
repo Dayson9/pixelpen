@@ -196,6 +196,13 @@ const openElementMenu = (isInner) => {
   ElementMenu.data.display = 'block';
 }
 
+const undo = () => {
+  Canvas.data.html = currentHTML;
+  NoticeModal.data.undoDisplay = 'none';
+  addClick();
+  updateHighlighter();
+  localStorage.setItem('pxp-html', Canvas.data.html)
+}
 
 globalThis.saveAsFile = saveAsFile;
 globalThis.toggleMenu = toggleMenu;
@@ -205,5 +212,6 @@ globalThis.clearCanvas = clearCanvas;
 globalThis.toggleHighlighter = toggleHighlighter;
 globalThis.openModal = openModal;
 globalThis.openElementMenu = openElementMenu;
+globalThis.undo = undo;
 
 export default saveAsFile;
