@@ -14,25 +14,6 @@ const QueFlow = ((exports) => {
   // Selects an element in the DOM using its data-qfid attribute.
   const selectElement = qfid => document.querySelector("[data-qfid=" + qfid + "]");
 
-  // Counts the number of placeholders ({{...}}) in a given template string.
-  function countPlaceholders(temp) {
-    if (!temp) {
-      temp = "";
-    }
-
-    // Regex to match opening and closing placeholders.
-    let reg = /{{/g;
-    let reg1 = /}}/g;
-
-    // Counts occurrences of both opening and closing placeholders.
-    let x = temp.match(reg) == null ? 0 : temp.match(reg).length;
-    let x1 = temp.match(reg1) == null ? 0 : temp.match(reg1).length;
-
-    // Returns the larger count, ensuring that matching pairs are considered.
-    return x > x1 ? x : x1;
-  }
-
-
   function qfEvent(name, detail) {
     return new CustomEvent(name, {
       detail: detail
@@ -129,29 +110,27 @@ const QueFlow = ((exports) => {
 
 
   // Evaluates a template string by replacing placeholders with their values.
-  function evaluateTemplate(len, reff, instance) {
-    let out = reff,
-      i = 0,
-      extracted = "",
-      parsed = "",
-      ext = "";
+  function evaluateTemplate(reff, instance) {
+    let out = "";
 
-    const parse = () => Function('return ' + ext).call(instance);
-
+    const regex = /\{\{[^\{\{]+\}\}/g;
     try {
-      // Iterates through all placeholders in the template.
-      for (i = 0; i < len; i++) {
-        // Extracts the placeholder expression.
-        extracted = b(out);
-        //Sanitize extracted string
-        ext = sanitizeString(extracted);
-        // Parse extracted string
-        parsed = parse();
-        // Replace placeholder expression with evaluated value
-        if (parsed != undefined) {
-          out = out.replace("{{" + extracted + "}}", sanitizeString(parsed));
+      out = reff.replace(regex, (match) => {
+        const ext = b(match),
+          parse = () => Function('return ' + ext).call(instance),
+          parsed = parse();
+
+        let rendered = "";
+
+        if (parsed == "undefined" && parsed != "0") {
+          rendered = match;
+        } else {
+          rendered = parsed;
         }
-      }
+
+        return rendered;
+      })
+
     } catch (error) {
       // Prevents unnecessary errors 
       let reg = /Unexpected token/i;
@@ -159,11 +138,10 @@ const QueFlow = ((exports) => {
         console.error("QueFlow Error:\nAn error occurred while parsing JSX/HTML:\n\n" + error);
     }
 
+
     // Returns the evaluated template string.
     return out;
   }
-
-
 
   // Gets the attributes of a DOM element.
   function getAttributes(el) {
@@ -226,9 +204,7 @@ const QueFlow = ((exports) => {
       console.error("QueFlow Error:\nAn error occurred while processing JSX/HTML:\n" + error);
     }
 
-
-    let finalLen = countPlaceholders(doc.innerHTML);
-    out = evaluateTemplate(finalLen, doc.innerHTML, instance);
+    out = evaluateTemplate(doc.innerHTML, instance);
 
     // Remove temporary elements
     doc.remove();
@@ -278,7 +254,6 @@ const QueFlow = ((exports) => {
     for (let { attribute, value } of attr) {
       value = value || "";
       let hasTemplate = (value.indexOf("{{") > -1 && value.indexOf("}}") > -1);
-      let len = countPlaceholders(value);
 
       if (!id && hasTemplate) {
         child.dataset.qfid = "qf" + counterQF;
@@ -287,12 +262,12 @@ const QueFlow = ((exports) => {
       }
 
       if ((child.style[attribute] || child.style[attribute] === "") && !isSVGElement) {
-        child.style[attribute] = evaluateTemplate(len, value, instance);
+        child.style[attribute] = evaluateTemplate(value, instance);
         if (attribute.toLowerCase() !== "src") {
           child.removeAttribute(attribute);
         }
       } else {
-        child.setAttribute(attribute, evaluateTemplate(len, value, instance));
+        child.setAttribute(attribute, evaluateTemplate(value, instance));
       }
 
       if (hasTemplate) {
@@ -407,7 +382,7 @@ const QueFlow = ((exports) => {
       child.style[sliced] = evaluated;
     } else {
       if (!key.startsWith("on")) {
-        if (child[key] || child[key] === "") {
+        if (!child.getAttribute(key)) {
           child[key] = evaluated;
         } else {
           child.setAttribute(key, evaluated);
@@ -438,8 +413,7 @@ const QueFlow = ((exports) => {
         let { template, key, qfid } = d;
         let child = selectElement(qfid);
         if (needsUpdate(template, ckey)) {
-          let len = countPlaceholders(template);
-          evaluated = evaluateTemplate(len, template, obj);
+          evaluated = evaluateTemplate(template, obj);
 
           key = (key === "class") ? "className" : key;
           update(child, key, evaluated);
@@ -461,7 +435,7 @@ const QueFlow = ((exports) => {
 
   function initiateSubComponents(markup, isNugget) {
     const subRegex = new RegExp("<[A-Z]\\w+\/[>]", "g"),
-      nuggetRegex = new RegExp("<([A-Z]\\w+)\\s*\\{[^/>]*\\}\\s*\/>", "g");
+      nuggetRegex = new RegExp("<([A-Z]\\w+)\\s*\\{[^>]*\\}\\s*\/>", "g");
 
     if (subRegex.test(markup) && !isNugget) {
       markup = markup.replace(subRegex, (match) => {
@@ -492,7 +466,7 @@ const QueFlow = ((exports) => {
       });
     }
 
-    return lintPlaceholders(markup);
+    return lintPlaceholders(markup, isNugget);
   }
 
 
@@ -510,19 +484,19 @@ const QueFlow = ((exports) => {
     return body.innerHTML;
   }
 
-  const lintPlaceholders = (html) => {
+  const lintPlaceholders = (html, isNugget) => {
     const attributeRegex = new RegExp("\\s\\w+\\s*[=]\\s*\\{\\{[^\\}\\}]+\\}\\}", "g"),
       eventRegex = new RegExp("\\s(on)\\w+\\s*[=]\\s*\\{\\{[^\\}\\}]+\\}\\}", "g");
-  
-    if (eventRegex.test(html)) {
+
+    if (eventRegex.test(html) && !isNugget) {
       html = html.replace(eventRegex, (match) => {
         match = match.replaceAll("'", "\`");
         const rpl = match.replace("{{", "\'");
         return rpl.replace(/}}$/, "\'");
       });
     }
-  
-  
+
+
     if (attributeRegex.test(html)) {
       const out = html.replace(attributeRegex, (match) => {
         const rpl = match.replace("{{", '"{{');
@@ -738,7 +712,7 @@ const QueFlow = ((exports) => {
 
       return rendered[0];
     }
-    
+
     freeze() {
       // Freezes component
       this.isFrozen = true;
