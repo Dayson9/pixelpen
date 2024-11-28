@@ -22,6 +22,7 @@ const PixelPen = new QComponent("#app", {
   stylesheet: {
     "@font-face" : `
       font-family: 'Inter';
+      font-display: swap;
       src: url('assets/Inter_18pt-Medium.ttf');
       font-weight: 400;
       font-style: normal;
