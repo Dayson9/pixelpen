@@ -77,7 +77,7 @@ const updateElement = (title, placeholder, prop, isAttribute) => {
 // This function assigns an ID to the last child element of the "out" container, making it the "current" element.
 const appendNewDataset = () => {
   // Remove the "pxp-current" ID from the current element if it exists.
-  const current = document.querySelector("[data-pxp=pxpEl]");
+  const current = out.querySelector("[data-pxp=pxpEl]");
   if (current) {
     current.removeAttribute("data-pxp");
   }
@@ -89,7 +89,7 @@ const appendNewDataset = () => {
 
   // Assign the "pxp-current" ID to the last child element, making it the current element.
   curr.dataset.pxp = "pxpEl";
-  currentElement = document.querySelector("[data-pxp=pxpEl");
+  currentElement = out.querySelector("[data-pxp=pxpEl");
 }
 
 // This function formats a tag name into valid HTML markup, handling closing tags and special cases.
@@ -117,7 +117,7 @@ const formatTag = (tagName) => {
 // This function appends a new HTML element to the "out" container.
 const appendNewElement = (tagName) => {
   // Add the formatted HTML tag to the Canvas data.
-  Canvas.data.html = out.innerHTML + formatTag(tagName);
+  Canvas.data.html = Canvas.data.html + formatTag(tagName);
 
 
   // Update the visibility of the highlighter and element menu.
@@ -130,7 +130,7 @@ const appendNewElement = (tagName) => {
   addClick();
 
   // Store the updated HTML in localStorage.
-  localStorage.setItem("pxp-html", Canvas.data.html);
+  localStorage.setItem("pxp-html", out.innerHTML);
 }
 
 // This function adds click event listeners to all child elements of the "out" container.
@@ -157,11 +157,16 @@ const addClick = () => {
 const reset = () => {
 
   Footer.data.modalDisplay = "none"; // Hide the modal.
-  Canvas.data.html = out.innerHTML;
- 
+  let html = out.innerHTML.replaceAll('-webkit-background-clip:;', '');
+  html = html.replace('-webkit-text-fill-color: transparent;', '-webkit-text-fill-color: transparent; -webkit-background-clip: text;');
+
+  html = html.replace(') text;', '); -webkit-background-clip: text;');
+
+  Canvas.data.html = html;
+
   localStorage.setItem("pxp-html", out.innerHTML); // Update the HTML in localStorage.
 
-  currentElement = document.querySelector("[data-pxp=pxpEl]");
+  currentElement = out.querySelector("[data-pxp=pxpEl]");
 
   updateHighlighter();
   addClick();
@@ -174,7 +179,12 @@ const loadAssets = () => {
     canvasBG = localStorage.getItem("pxp-canvas-bg");
   if (pxpHTML) {
     // Update the Canvas data with the HTML from localStorage.
-    Canvas.data.html = pxpHTML.replace(/ text;?/g, ";\n-webkit-background-clip: text;");
+    let html = pxpHTML.replaceAll('-webkit-background-clip:;', '');
+
+    html = html.replace(' text;', '; -webkit-background-clip: text;');
+
+    Canvas.data.html = html;
+
     currentElement = document.querySelector("[data-pxp=pxpEl]"); // Get the current element if it exists.
 
     const all = out.querySelectorAll("*");
@@ -338,7 +348,7 @@ const openCodeView = () => {
   }
 
   // Set  the HTML and CSS code in the CodeView component.
-  CodeView.data.html.code = clone.innerHTML.replace(/<\/[^>]+>/g, (match) => match+"\n");
+  CodeView.data.html.code = clone.innerHTML.replace(/<\/[^>]+>/g, (match) => match + "\n");
   CodeView.data.css.code = `${canvasContainer.style.background !== "" ? "\nbody {\nmargin: 0;\npadding: 0;\nbackground: "+canvasContainer.style.background+";\n}\n" : ""}\n* {\nbox-sizing: border-box;\n}\n${stylesheet}`;
 
   clone.remove(); // Remove the clone.
