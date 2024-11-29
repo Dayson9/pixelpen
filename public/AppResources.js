@@ -157,7 +157,8 @@ const addClick = () => {
 const reset = () => {
 
   Footer.data.modalDisplay = "none"; // Hide the modal.
-  Canvas.data.html = Canvas.data.html.replace('"=""', '');
+  Canvas.data.html = out.innerHTML;
+ 
   localStorage.setItem("pxp-html", out.innerHTML); // Update the HTML in localStorage.
 
   currentElement = document.querySelector("[data-pxp=pxpEl]");

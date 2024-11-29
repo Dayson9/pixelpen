@@ -20,7 +20,7 @@ const PixelPen = new QComponent("#app", {
     </div>
   `,
 
-  render: () => {
+  run: () => {
     out = document.querySelector("#out");
     canvasContainer = document.querySelector("#main-c");
     loadAssets();
