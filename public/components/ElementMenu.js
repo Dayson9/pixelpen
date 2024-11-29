@@ -2,7 +2,7 @@
 const { subComponent } = QueFlow;
 
 // Create a new subComponent instance called ElementMenu.
-const ElementMenu = new subComponent({
+const ElementMenu = new subComponent("ElementMenu", {
   // Define reactive data for the component.
   data: {
     // Initially set the display to 'none' to hide the menu.
@@ -59,9 +59,6 @@ const ElementMenu = new subComponent({
     // Styles for the cancel button within the header.
   }
 });
-
-// Make the ElementMenu component globally accessible.
-globalThis['ElementMenu'] = ElementMenu;
 
 // Export the ElementMenu component as the default export.
 export default ElementMenu;

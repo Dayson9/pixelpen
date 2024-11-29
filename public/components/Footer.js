@@ -2,7 +2,7 @@
 const { subComponent } = QueFlow;
 
 // Create a new subComponent instance named 'Footer'.
-const Footer = new subComponent({
+const Footer = new subComponent("Footer", {
   // Define the reactive data
   data: {
     modalDisplay: 'none', 
@@ -47,9 +47,6 @@ const Footer = new subComponent({
     }
   }
 });
-
-// Attach the Footer component to the global scope for easy access.
-globalThis['Footer'] = Footer;
 
 // Export the Footer component as the default export.
 export default Footer;

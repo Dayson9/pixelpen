@@ -2,7 +2,7 @@
 const { subComponent } = QueFlow;
 
 // Define the Menu component
-const Menu = new subComponent({
+const Menu = new subComponent("Menu", {
   // Define the reactive data
   data: {
     // Flag to indicate whether the menu is open or not
@@ -74,9 +74,6 @@ const Menu = new subComponent({
     }
   }
 });
-
-// Make the Menu component accessible globally
-globalThis.Menu = Menu;
 
 // Export the Menu component as default
 export default Menu;

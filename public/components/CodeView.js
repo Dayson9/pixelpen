@@ -2,7 +2,7 @@
 const { subComponent } = QueFlow;
 
 // Create a new CodeView component using the subComponent function.
-const CodeView = new subComponent({
+const CodeView = new subComponent("CodeView", {
   // Define the reactive data for the component.
   data: {
     // Data for HTML code.
@@ -175,9 +175,6 @@ const CodeView = new subComponent({
     }
   }
 });
-
-// Attach the CodeView component to the global scope.
-globalThis.CodeView = CodeView;
 
 // Export the CodeView component as the default export.
 export default CodeView;

@@ -2,7 +2,7 @@
 const { subComponent } = QueFlow;
 
 // Define a new subcomponent called NoticeModal
-const NoticeModal = new subComponent({
+const NoticeModal = new subComponent("NoticeModal", {
   // Define reactive data
   data: {
     // Heading message for the modal
@@ -83,9 +83,6 @@ const NoticeModal = new subComponent({
     }
   }
 });
-
-// Make the NoticeModal component globally accessible
-globalThis.NoticeModal = NoticeModal;
 
 // Export the NoticeModal component
 export default NoticeModal;

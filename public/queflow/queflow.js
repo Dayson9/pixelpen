@@ -634,43 +634,46 @@ const QueFlow = ((exports) => {
 
 
   class subComponent {
-    constructor(options = {}) {
+    constructor(name, options = {}) {
+      if (name) {
+        globalThis[name] = this;
+      }
       this.template = options?.template;
-
+  
       if (!this.template) throw new Error("QueFlow Error:\nTemplate not provided for Subcomponent");
-
+  
       this.element = "";
       // Creates a reactive signal for the subcomponent's data.
       this.data = createSignal(options.data, { forComponent: true, host: this });
-
+  
       // Asigns the value of this.data' to _data
       let _data = this.data;
-
+  
       // Stores the options provided to the component.
       this.options = options;
-
+  
       // Stores the current 'freeze status' of the subcomponent
       this.isFrozen = false;
-
+  
       // Stores the id of the subcomponent's mainelement 
       this.elemId = "";
-
+  
       this.created = options.created;
-
+  
       // Stores the subcomponent's stylesheet 
       this.stylesheet = options.stylesheet;
-
+  
       // Stores the subcomponent's reactive elements data
       this.dataQF = [];
-
+  
       this.renderEvent = qfEvent("qf:render");
-
+  
       if (options.useStrict === true || options.useStrict === false) {
         this.useStrict = options.useStrict;
       } else {
         this.useStrict = true;
       }
-
+  
       // Defines properties for the subcomponent instance.
       Object.defineProperties(this, {
         data: {
@@ -691,33 +694,33 @@ const QueFlow = ((exports) => {
           mutable: false
         }
       });
-
+  
       if (this.created) this.created(this);
     }
-
-
+  
+  
     render(name) {
       let template = "<div>" + (this.template instanceof Function ? this.template() : this.template) + "</div>";
       template = initiateSubComponents(template);
-
+  
       const [el, newTemplate] = getFirstElement(template);
-
+  
       // Initiates sub-component's stylesheet 
       initiateStyleSheet(`#${el.id}`, this);
       const rendered = jsxToHTML(newTemplate, this, name);
-
+  
       el.innerHTML = rendered[0];
       this.dataQF = rendered[1];
       this.element = el;
-
+  
       return rendered[0];
     }
-
+  
     freeze() {
       // Freezes component
       this.isFrozen = true;
     }
-
+  
     unfreeze() {
       // Unfreezes component
       this.isFrozen = false;
@@ -726,7 +729,7 @@ const QueFlow = ((exports) => {
     destroy() {
       const parent = [this.element, ...this.element.querySelectorAll('*')];
       removeEvents(parent);
-
+  
       this.element.remove();
     }
   }

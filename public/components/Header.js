@@ -4,7 +4,7 @@ import NoticeModal from './NoticeModal.js'; // Import the NoticeModal component
 const { subComponent } = QueFlow; // Import the subComponent class from QueFlow
 
 // Define a new subComponent called Header
-const Header = new subComponent({
+const Header = new subComponent("Header", {
   // Define reactive data
   data: {
     hideShowIcon: 'bx-hide' // property for toggling the menu icon class
@@ -85,9 +85,6 @@ const Header = new subComponent({
     }
   }
 });
-
-// Make the Header component accessible globally
-globalThis['Header'] = Header;
 
 // Export the Header component
 export default Header;

@@ -19,16 +19,22 @@ const PixelPen = new QComponent("#app", {
       <ElementMenu/>
     </div>
   `,
+
+  render: () => {
+    out = document.querySelector("#out");
+    canvasContainer = document.querySelector("#main-c");
+    loadAssets();
+  },
   stylesheet: {
-    "@font-face" : `
+    "@font-face": `
       font-family: 'Inter';
       font-display: swap;
       src: url('assets/Inter_18pt-Medium.ttf');
       font-weight: 400;
       font-style: normal;
     `,
-   
-    "#main:not(#out *)" : `
+
+    "#main:not(#out *)": `
       width: 100%;
       height: 100vh;
       position: fixed;
@@ -36,7 +42,7 @@ const PixelPen = new QComponent("#app", {
       left: 0px;
       font-family: Inter;
     `,
-  
+
     // Style for the button container
     ".btns:not(#out *)": `
       width: 80%;
@@ -57,7 +63,7 @@ const PixelPen = new QComponent("#app", {
       background: rgba(0,0,0,.3);
       color: white;
     `,
-    
+
     "#plus i:not(#out *)": `
       font-size: 35px;
       font-weight: 800;
@@ -78,7 +84,3 @@ const PixelPen = new QComponent("#app", {
 
 
 PixelPen.render();
-
-out = document.querySelector("#out");
-canvasContainer = document.querySelector("#main-c");
-loadAssets();

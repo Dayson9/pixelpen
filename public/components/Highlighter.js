@@ -2,7 +2,7 @@
 const { subComponent } = QueFlow;
 
 // Create a new subComponent instance named Highlighter.
-const Highlighter = new subComponent({
+const Highlighter = new subComponent("Highlighter", {
   // Define reactive data
   data: {
     // Horizontal offset from the parent container.
@@ -38,9 +38,6 @@ const Highlighter = new subComponent({
     `
   }
 });
-
-// Make the Highlighter component globally accessible.
-globalThis['Highlighter'] = Highlighter;
 
 // Export the Highlighter component as the default export.
 export default Highlighter;

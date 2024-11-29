@@ -2,7 +2,7 @@
 const { subComponent } = QueFlow;
 
 // Create a new subComponent instance named 'Canvas'
-const Canvas = new subComponent({
+const Canvas = new subComponent("Canvas", {
   // Define reactive data for the Canvas component
   data: {
     // An empty string to store the HTML content to be rendered
@@ -71,9 +71,6 @@ const Canvas = new subComponent({
   // Disable strict mode for the component, allowing HTML strings to be rendered directly
   useStrict: false
 });
-
-// Make the Canvas component globally accessible
-globalThis['Canvas'] = Canvas;
 
 // Export the Canvas component as the default export
 export default Canvas;
