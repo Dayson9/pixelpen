@@ -349,7 +349,7 @@ const openCodeView = () => {
 
   // Set  the HTML and CSS code in the CodeView component.
   CodeView.data.html.code = clone.innerHTML.replace(/<\/[^>]+>/g, (match) => match + "\n");
-  CodeView.data.css.code = `${canvasContainer.style.background !== "" ? "\nbody {\nmargin: 0;\npadding: 0;\nbackground: "+canvasContainer.style.background+";\n}\n" : ""}\n* {\nbox-sizing: border-box;\n}\n${stylesheet}`;
+  CodeView.data.css.code = `${canvasContainer.style.background !== "" ? "\nbody {\nheight: 100vh;\nmargin: 0;\npadding: 0;\nbackground: "+canvasContainer.style.background+";\n}\n" : ""}\n* {\nbox-sizing: border-box;\n}\n${stylesheet}`;
 
   clone.remove(); // Remove the clone.
 }

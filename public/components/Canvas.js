@@ -58,12 +58,9 @@ const Canvas = new subComponent("Canvas", {
         margin: 0px;
       `,
     // Style the foreignObject element to allow vertical scrolling
-    'foreignObject': 'overflow-y: scroll; padding-bottom: 50px;',
-    // Style all child elements of the foreignObject to ensure consistent box sizing
-    'foreignObject *': `
-        box-sizing: border-box;
-      `,
-      
+    'foreignObject': 'overflow: scroll; padding-bottom: 50px;',
+   'foreignObject *': 'font-family: serif',
+   
     '#modal span' : 'margin-bottom: 10px;',
     
     '#modal .btns' : 'height: 30%;'

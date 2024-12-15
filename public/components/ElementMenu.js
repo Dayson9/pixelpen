@@ -21,7 +21,7 @@ const ElementMenu = new subComponent("ElementMenu", {
           <span class='cancel' onclick={{ this.data.display = 'none' }}>×</span>
         </div>
         <!-- VerticalScrollList to display HTML elements -->
-        <VerticalScrollList { list: ['div', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'button', 'input', 'p', 'span', 'i', 'pre', 'img', 'header', 'article', 'main', 'footer', 'aside', 'ul', 'ol', 'code', 'blockquote', 'cite', 'select', 'option', 'iframe', 'hr'] } />
+        <VerticalScrollList { list: ['div', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'button', 'input', 'textarea', 'p', 'span', 'i', 'pre', 'img', 'header', 'article', 'main', 'footer', 'aside', 'ul', 'ol', 'code', 'blockquote', 'cite', 'select', 'option', 'iframe', 'hr'] } />
       </div>
     `
   },
