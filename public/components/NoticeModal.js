@@ -14,6 +14,8 @@ const NoticeModal = new subComponent("NoticeModal", {
     // Countdown for undo message 
     undoCounter: 0,
     undoDisplay: 'none',
+    // Feedback message
+    feedbackMsg: '',
     // Flag to control the modal visibility
     shown: false
   },
@@ -30,6 +32,7 @@ const NoticeModal = new subComponent("NoticeModal", {
         </div>
          <div id='undo' display={{ this.data.undoDisplay }}>
            <Text { text: '{{ this.data.undoCounter }}', weight: 800, size: 20, color: 'rgba(19, 40, 67, 1)' } />
+           <Text { text: '{{ this.data.feedbackMsg }}', weight: 400, size: 12, color: 'rgba(19, 40, 67, 1)' } />         
            <Text { text: 'Undo', weight: 300, size: 15, color: 'rgb(80, 157, 255)', click: 'undo();' } />
          </div>
       `
@@ -53,14 +56,14 @@ const NoticeModal = new subComponent("NoticeModal", {
         font-family: Inter;
      `,
      '#undo' : `
-        width: 60%;
+        width: 90%;
         height: 70px;
         border-radius: 15px;
         background: white;
         box-shadow: 2px 5px 16px rgba(0,0,0,0.1);
         position: fixed;
         bottom: 15vh;
-        left: 20%;
+        left: 5%;
         display: flex;
         flex-direction: row;
         justify-content: space-between;

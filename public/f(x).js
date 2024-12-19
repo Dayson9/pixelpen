@@ -125,44 +125,48 @@ const startCountDown = () => {
 
 
 const openModal = (title, msg, actionMsg) => {
-  NoticeModal.data.headingMsg = title;
-  NoticeModal.data.noticeMsg = msg;
-  NoticeModal.data.actionMsg = actionMsg;
+  if (currentElement.tagName) {
+    NoticeModal.data.headingMsg = title;
+    NoticeModal.data.noticeMsg = msg;
+    NoticeModal.data.actionMsg = actionMsg;
 
-  const btn = document.getElementById("action");
+    const btn = document.getElementById("action");
 
-  NoticeModal.data.shown = true;
+    NoticeModal.data.shown = true;
 
-  switch (actionMsg) {
-    case 'Delete':
-      btn.onclick = () => {
-        currentHTML = out.innerHTML;
-        NoticeModal.data.undoDisplay = 'flex';
-        startCountDown();
-        deleteElement();
-        NoticeModal.data.shown = false;
-        toggleMenu();
-      }
-      break;
+    switch (actionMsg) {
+      case 'Delete':
+        btn.onclick = () => {
+          currentHTML = out.innerHTML;
+          NoticeModal.data.undoDisplay = 'flex';
+          NoticeModal.data.feedbackMsg = `[${currentElement.tagName}] element was deleted`;
+          startCountDown();
+          deleteElement();
+          NoticeModal.data.shown = false;
+          toggleMenu();
+        }
+        break;
 
-    case 'Clear':
-      btn.onclick = () => {
-        currentHTML = Canvas.data.html;
-        NoticeModal.data.undoDisplay = 'flex';
-        startCountDown();
-        clearCanvas();
-        NoticeModal.data.shown = false;
-        toggleMenu();
-      }
-      break;
+      case 'Clear':
+        btn.onclick = () => {
+          currentHTML = Canvas.data.html;
+          NoticeModal.data.undoDisplay = 'flex';
+          NoticeModal.data.feedbackMsg = 'Canvas was cleared.'
+          startCountDown();
+          clearCanvas();
+          NoticeModal.data.shown = false;
+          toggleMenu();
+        }
+        break;
 
-    case 'Clone':
-      btn.onclick = () => {
-        cloneElement();
-        NoticeModal.data.shown = false;
-        toggleMenu();
-      }
-      break;
+      case 'Clone':
+        btn.onclick = () => {
+          cloneElement();
+          NoticeModal.data.shown = false;
+          toggleMenu();
+        }
+        break;
+    }
   }
 }
 
@@ -201,17 +205,5 @@ const undo = () => {
   NoticeModal.data.undoDisplay = 'none';
   addClick();
   updateHighlighter();
-  localStorage.setItem('pxp-html', Canvas.data.html)
+  localStorage.setItem('pxp-html', Canvas.data.html);
 }
-
-globalThis.saveAsFile = saveAsFile;
-globalThis.toggleMenu = toggleMenu;
-globalThis.deleteElement = deleteElement;
-globalThis.cloneElement = cloneElement;
-globalThis.clearCanvas = clearCanvas;
-globalThis.toggleHighlighter = toggleHighlighter;
-globalThis.openModal = openModal;
-globalThis.openElementMenu = openElementMenu;
-globalThis.undo = undo;
-
-export default saveAsFile;

@@ -6,7 +6,7 @@ const updateHighlighter = () => {
     // Get the bounding rectangle of the current element.
     const rect = currentElement.getBoundingClientRect();
 
-    // Extract width, height, x and y coordinates from the bounding rectangle.
+    // Extract width, height from the bounding rectangle.
     const w = rect.width,
       h = rect.height;
 
@@ -430,8 +430,6 @@ const lowerIconInfos = [
   { text: "#", click: "updateElement('ID', 'main', 'id')", label: "ID" }, // ID property
   { iclass: "bx-rectangle", click: "updateElement('Display', 'flex', 'display')", label: "Display" },
   { iclass: "bx-rectangle", click: "updateElement('Flex Direction', 'row', 'flexDirection')", label: "Flex-direction" },
-  { iclass: "bx-rectangle", click: "updateElement('Justify', 'space-between', 'justifyContent')", label: "Justify" },
-  { iclass: "bx-rectangle", click: "updateElement('Align', 'center', 'alignItems')", label: "Align" },
   { iclass: "bx-filter", click: "updateElement('Filter', 'blur(4px)', 'filter')", label: "Filter" },
   { iclass: "bx-filter", click: "updateElement('Backdrop filter', 'brightness(70%)', 'backdropFilter')", label: "Backdrop Filter" },
   { iclass: "bx-link", click: "updateElement('SRC', 'image.jpeg', 'src', true)", label: "SRC" },

@@ -26,6 +26,7 @@ const Header = new subComponent("Header", {
       </div>
       <NoticeModal/>
     </div>
+    <HowToUse/>
   `,
   // Define the stylesheet for the Header component
   stylesheet: {

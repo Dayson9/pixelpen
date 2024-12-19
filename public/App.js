@@ -4,7 +4,7 @@ import Footer from './components/Footer.js';
 import Highlighter from './components/Highlighter.js';
 import ElementMenu from './components/ElementMenu.js';
 import CodeView from './components/CodeView.js';
-import saveAsFile from './HelperFunctions.js';
+import HowToUse from './components/HowToUse.js';
 
 const { QComponent } = QueFlow;
 

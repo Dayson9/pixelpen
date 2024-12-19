@@ -116,7 +116,7 @@ const QueFlow = ((exports) => {
     const regex = /\{\{[^\{\{]+\}\}/g;
     try {
       out = reff.replace(regex, (match) => {
-        const ext = b(match),
+        const ext = b(match.replace('&gt;', '>')),
           parse = () => Function('return ' + ext).call(instance),
           parsed = parse();
 
