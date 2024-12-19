@@ -1,4 +1,4 @@
-//localStorage.clear(); // Uncomment this line to clear local storage, useful for testing
+localStorage.clear(); // Uncomment this line to clear local storage, useful for testing
 
 // This function updates the highlighter element's position and size based on the current element.
 const updateHighlighter = () => {

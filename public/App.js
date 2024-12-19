@@ -24,6 +24,8 @@ const PixelPen = new QComponent("#app", {
     out = document.querySelector("#out");
     canvasContainer = document.querySelector("#main-c");
     loadAssets();
+    if(!localStorage.getItem('how-to-use'))
+    localStorage.setItem('how-to-use', true);
   },
   stylesheet: {
     "@font-face": `
@@ -79,9 +81,7 @@ const PixelPen = new QComponent("#app", {
       justify-content: center;
       box-sizing: border-box;
     `
-  },
-  
-  run: () => localStorage.setItem('how-to-use', true)
+  }
 });
 
 

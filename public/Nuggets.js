@@ -119,13 +119,14 @@ const TextField = new Nugget({
 const Button = new Nugget({
   template: (props) => {
     return `
-      <button width='{{ width }}%' height='{{ height }}px' background-color='{{ bg }}' color='{{ color }}' border='2px solid {{ bg }}' ${ props.click ? "onclick='{{ click }}'" : '' } >${ props.icon ? '<i class="{{ icon }}"></i>' : '' } {{ label }}</button>`
+      <button ${ props.w ? "width='{{ width }}%'" : "" } ${ props.h ? "height='{{ height }}px'" : "" } background-color='{{ bg }}' ${ props.border ? "border='2px solid {{ bg }}'" : "" } ${ props.click ? "onclick='{{ click }}'" : '' } >${ props.icon ? '<i class="{{ icon }}"></i>' : '' } {{ label }}</button>`
   },
   stylesheet: {
     'button': `
       border: 2px solid rgb(80, 157, 255);
       border-radius: 20px;
       font-weight: 700;
+      color: white;
       `,
     "button i": `
       font-weight: 700;
@@ -208,4 +209,10 @@ const Paragraph = new Nugget({
   template: () => {
     return `<p>{{ text }}</p>`;
   }
-})
+});
+
+const List = new Nugget({
+  template: () => {
+    return `<li>{{ text }}</li>`;
+  }
+});
