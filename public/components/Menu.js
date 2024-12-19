@@ -25,6 +25,7 @@ const Menu = new subComponent("Menu", {
         <i class='bx bx-copy' onclick={{ openModal('Clone Element', 'Clone the selected element?', 'Clone'); }}></i>
          <i class='bx bx-code-alt' onclick={{ openCodeView(); }}></i>
         <i class='bx bx-download' onclick={{ saveAsFile(); }}></i>
+        <i class='bx bx-question-mark' onclick={{ openHTU(); }}></i>
       </div>
     `
   },
@@ -48,7 +49,7 @@ const Menu = new subComponent("Menu", {
     `,
     // Styles for the sliding menu container
     '#slider': `
-      width: 50%;
+      width: 60%;
       height: 50px;
       background: grey;
       position: fixed;

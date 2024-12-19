@@ -207,9 +207,5 @@ const VerticalScrollList = new Nugget({
 const Paragraph = new Nugget({
   template: () => {
     return `<p>{{ text }}</p>`;
-  },
-  
-  stylesheet: {
-    
   }
 })

@@ -1,11 +1,16 @@
 const { subComponent } = QueFlow;
 
 const HowToUse = new subComponent('HowToUse', {
+  data: {
+    display: localStorage.getItem('how-to-use') ? 'none' : 'block'
+  },
   template: () => {
     return `
-      <div id='htu'>
+      <div id='htu' display={{ this.data.display }}>
         <h2>How to use</h2>
-        
+        <div class='content'>
+          <Paragraph { text: "To start, click on the '+' icon, a dropdown list would appear with some elements on it" } />
+        </div>
       </div>
     `
   },
@@ -24,6 +29,13 @@ const HowToUse = new subComponent('HowToUse', {
       position: absolute;
       top: 10vh;
       left: ${window.innerWidth <= 768 ? '10%' : '37.5%'};
+    `,
+    
+    '#htu > .content' : `
+      width: 95%;
+      height: 90%;
+      margin: 0 auto;
+      overflow-y: scroll;
     `
   }
 });

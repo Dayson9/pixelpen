@@ -79,7 +79,9 @@ const PixelPen = new QComponent("#app", {
       justify-content: center;
       box-sizing: border-box;
     `
-  }
+  },
+  
+  run: () => localStorage.setItem('how-to-use', true)
 });
 
 

@@ -207,3 +207,9 @@ const undo = () => {
   updateHighlighter();
   localStorage.setItem('pxp-html', Canvas.data.html);
 }
+
+const openHTU = () => {
+  HowToUse.data.display = 'block';
+  Canvas.data.screenBlur = 8;
+  toggleMenu();
+}

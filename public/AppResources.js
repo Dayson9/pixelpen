@@ -220,6 +220,7 @@ const formatCSS = (css) => css.replaceAll(";", ";\n");
 const openCodeView = () => {
   // Show the CodeView component and toggle the menu.
   CodeView.data.show = true;
+  // Blur the Canvas container 
   Canvas.data.screenBlur = 8;
   toggleMenu();
 
