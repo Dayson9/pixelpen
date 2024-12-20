@@ -113,6 +113,7 @@ const toggleHighlighter = () => {
 
 const startCountDown = () => {
   NoticeModal.data.undoCounter = 7;
+  clearInterval(countDownInterval);
   countDownInterval = setInterval(() => {
     if (NoticeModal.data.undoCounter === 1) {
       clearInterval(countDownInterval);
