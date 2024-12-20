@@ -11,13 +11,19 @@ const HowToUse = new subComponent('HowToUse', {
         <i class='bx bx-x' onclick={{ this.data.display = 'none'; Canvas.data.screenBlur = 0; }}></i>
         <div class='content'>
         <ul>
-          <List { text: "To start, click on the '+' icon, a dropdown list would appear with list elements on it. Click on any element of them to add it to the canvas." } />
+          <List { text: "To start, click on the '+' icon, a dropdown list would appear with some elements on it. Click on any element to add it to the canvas." } />
+          
+          <List { text: "Clicking on an element in the white Canvas selects it, which makes a line (selector) appear around it, before it can be styled." } />
+          
+          <List { text: "Beside the plus icon at the top bar, there's an eye icon. Clicking on it shows/hides the selector." } />
+          
+          <List { text: "Beside the eye icon, there's a menu. When clicked, it opens a slider containing these icons 'delete', 'erase', 'copy', 'code', download', and 'how-to-use' respectively. Experiment with any of them to see them in action." } />
+          
+          <List { text: "To view the code of what you've designed so far. Open the slider menu and tap on the '&lt;/&gt;' icon." } />
           
           <List { text: "The bottom row contains some icons and their respective labels, click on any of them to style the selected element." } />
           
-          <List { text: "To select an element, simply click on it, a rectangular line would appear around it, it's called 'Selector'." } />
-          
-          <List { text: "Beside the plus icon at the top bar, there's an eye icon. Clicking on it shows/hides the selector." } />
+          <List { text: "-" } />
           </ul>
         </div>
       </div>

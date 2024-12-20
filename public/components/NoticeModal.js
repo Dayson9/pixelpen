@@ -1,4 +1,4 @@
-// Import the subComponent class from QueFlow 
+// Import subComponent from QueFlow 
 const { subComponent } = QueFlow;
 
 // Define a new subcomponent called NoticeModal
@@ -55,7 +55,7 @@ const NoticeModal = new subComponent("NoticeModal", {
         background: white;
         font-family: Inter;
      `,
-     '#undo' : `
+    '#undo': `
         width: 90%;
         height: 70px;
         border-radius: 15px;

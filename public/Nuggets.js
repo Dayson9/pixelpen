@@ -112,6 +112,10 @@ const TextField = new Nugget({
 
     "textarea:hover": `
       border-color: rgb(80, 157, 255);
+    `,
+    
+    "textarea::placeholder" : `
+      color: rgb(0,0,0,0.1);
     `
   }
 });
@@ -119,7 +123,7 @@ const TextField = new Nugget({
 const Button = new Nugget({
   template: (props) => {
     return `
-      <button ${ props.w ? "width='{{ width }}%'" : "" } ${ props.h ? "height='{{ height }}px'" : "" } background-color='{{ bg }}' ${ props.border ? "border='2px solid {{ bg }}'" : "" } ${ props.click ? "onclick='{{ click }}'" : '' } >${ props.icon ? '<i class="{{ icon }}"></i>' : '' } {{ label }}</button>`
+      <button ${ props.width ? "width='{{ width }}%'" : "" } ${ props.height ? "height='{{ height }}px'" : "" } background-color='{{ bg }}' ${ props.border ? "border='2px solid {{ bg }}'" : "" } ${ props.click ? "onclick='{{ click }}'" : '' } >${ props.icon ? '<i class="{{ icon }}"></i>' : '' } {{ label }}</button>`
   },
   stylesheet: {
     'button': `
@@ -140,9 +144,9 @@ const InputModal = new Nugget({
     return `
       <div class="modal" display={{ this.data.modalDisplay }}>
         <Text { text: "{{ title }}", weight: 600, size: 25, color: 'rgba(19, 40, 67, 1)' } /> 
-        <TextField { width: 63, height: 57, border: 'dodgerblue', color: 'rgba(0,0,0,0.6)', placeholder: '${data.placeholder}', value: '${data.value}', id: '${data.id}' } />
+        <TextField { width: 63, height: 57, border: 'dodgerblue', color: 'rgba(0,0,0,0.9)', placeholder: '${data.placeholder}', value: '${data.value}', id: '${data.id}' } />
         
-        <Button { width: 60, height: 54, bg: 'rgb(80, 157, 255)', color: 'white', label: 'Done', icon: "bx bx-check", click: '${data.click}' } />
+        <Button { width: 62, height: 54, bg: 'rgb(80, 157, 255)', color: 'white', label: 'Done', icon: "bx bx-check", click: '${data.click}' } />
       </div>`
 
   },
@@ -213,6 +217,6 @@ const Paragraph = new Nugget({
 
 const List = new Nugget({
   template: () => {
-    return `<li>{{ text }}</li>`;
+    return `<li margin-bottom='10px'>{{ text }}</li>`;
   }
 });
