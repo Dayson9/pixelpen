@@ -70,6 +70,7 @@ const NoticeModal = new subComponent("NoticeModal", {
         align-items: center;
         padding-inline: 20px;
         box-sizing: border-box;
+        z-index: 3;
      `,
     // Style for the Text Nugget inside the modal
     'span': `

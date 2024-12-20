@@ -16,7 +16,7 @@ const Header = new subComponent("Header", {
         <Text { text: 'PixelPen', weight: 600, size: 18, color: 'white', font: '"Bangers"' } />
       </div>
       <div class='right'>
-        <div id='plus' onclick={{ openElementMenu(false); }}>
+        <div class='plus' onclick={{ openElementMenu(false); }}>
           <i class='bx bx-plus'></i>
         </div>
        <div class='ham' color='white' onclick={{ toggleHighlighter(); }}>

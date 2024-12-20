@@ -15,10 +15,9 @@ const ElementMenu = new subComponent("ElementMenu", {
       <div id='container' display={{ this.data.display }}>
       <!-- Header div for the menu -->
         <div class='header'>
-        <!-- Text component with 'Elements' text -->
-          <Text { text: 'Elements', weight: 600, size: 18, color: 'white' } /> 
+          <h3>Elements</h3>
           <!-- Cancel button to hide the menu -->
-          <span class='cancel' onclick={{ this.data.display = 'none' }}>×</span>
+          <span class='bx bx-x' onclick={{ this.data.display = 'none' }}></span>
         </div>
         <!-- VerticalScrollList to display HTML elements -->
         <VerticalScrollList { list: ['div', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'button', 'input', 'textarea', 'p', 'span', 'i', 'pre', 'img', 'header', 'article', 'main', 'footer', 'aside', 'ul', 'ol', 'code', 'blockquote', 'cite', 'select', 'option', 'iframe', 'hr'] } />
@@ -35,7 +34,7 @@ const ElementMenu = new subComponent("ElementMenu", {
        box-shadow: 2px 4px 16px rgba(0,0,0,0.1);
        position: fixed;
        bottom: 20px;
-       z-index: 1;
+       z-index: 4;
        text-align: center;
     `,
     // Styles for the container div.
@@ -45,16 +44,18 @@ const ElementMenu = new subComponent("ElementMenu", {
       background: rgba(80, 157, 255);
       color: white;
       border-radius: 10px 10px 0px 0px;
+      text-align: center;
       display: flex;
-      flex-direction: row;
-      justify-content: space-between;
       align-items: center;
+      justify-content: center;
       box-sizing: border-box;
-      padding-inline: 10px;
     `,
     // Styles for the header div.
-    '.header .cancel': `
+    '.header span': `
       font-size: 25px;
+      position: absolute;
+      right: 5px;
+      top: 5px;
     `
     // Styles for the cancel button within the header.
   }

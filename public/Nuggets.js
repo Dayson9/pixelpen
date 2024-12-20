@@ -95,18 +95,16 @@ const SlidingIcons = new Nugget({
 
 const TextField = new Nugget({
   template: (props) => {
-    return `<textarea type='text' id='{{ id }}' width='{{ width }}%' height='{{ height }}px' color='{{ color }}' placeholder='{{ placeholder }}' value='{{ value }}'${props.input ? " oninput='{{ input }}'" : "" }>{{ value }}</textarea>`
+    return `<textarea type='text' id='{{ id }}' width='{{ width }}%' height='{{ height }}px' color='{{ color }}' placeholder='{{ placeholder }}' value='{{ value }}'${props.input ? " oninput='{{ input }}'" : "" } ${props.top ? "margin-top={{ top }}" : "" }>{{ value }}</textarea>`
   },
   stylesheet: {
     'textarea': `
-      border: 2px solid white;
-      border-radius: 20px;
-      background: rgba(0,0,0,0.05);
+      border: 2px solid rgba(0,0,0,0.1);
+      border-radius: 15px;
       outline: none;
       padding-left: 12px;
       padding-top: 8px;
-      font-weight: 200;
-      color: black;
+      color: rgba(19, 40, 67, 1);
       font-family: 'Inter';
     `,
 
@@ -188,7 +186,7 @@ const VerticalScrollList = new Nugget({
       align-items: center;
       justify-content: space-evenly;
       border-radius: inherit;
-      padding-block: 10px;
+      padding-top: 10px;
       overflow-y: scroll;
       box-sizing: border-box;
     `,
@@ -204,7 +202,7 @@ const VerticalScrollList = new Nugget({
     `,
 
     ".scrolldiv .first": `
-      margin-top: 870px;
+      margin-top: 900px;
     `
   }
 });

@@ -1,4 +1,4 @@
-localStorage.clear(); // Uncomment this line to clear local storage, useful for testing
+//localStorage.clear(); // Uncomment this line to clear local storage, useful for testing
 
 // This function updates the highlighter element's position and size based on the current element.
 const updateHighlighter = () => {
@@ -405,7 +405,8 @@ const saveCanvasBG = (value) => localStorage.setItem("pxp-canvas-bg", value);
 // Initialize variables.
 var currentHTML = '',
   countDownInterval, elCounter = 0, // Element counter for generating unique class names.
-  currentElement = out = canvasContainer = {}; // Initialize current element and out container.
+  currentElement = out = canvasContainer = {},
+  attri; // Initialize current element and out container.
 
 // Define an array of information for the lower menu icons.
 const lowerIconInfos = [

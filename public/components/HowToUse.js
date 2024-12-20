@@ -17,13 +17,13 @@ const HowToUse = new subComponent('HowToUse', {
           
           <List { text: "Beside the plus icon at the top bar, there's an eye icon. Clicking on it shows/hides the selector." } />
           
-          <List { text: "Beside the eye icon, there's a menu. When clicked, it opens a slider containing these icons 'delete', 'erase', 'copy', 'code', download', and 'how-to-use' respectively. Experiment with any of them to see them in action." } />
+          <List { text: "Beside the eye icon, there's a menu. When clicked, it opens a slider containing these icons 'delete', 'erase', 'copy', 'code', download', and 'how-to-use(?)' respectively. Experiment with any of them to see them in action." } />
           
           <List { text: "To view the code of what you've designed so far. Open the slider menu and tap on the '&lt;/&gt;' icon." } />
           
           <List { text: "The bottom row contains some icons and their respective labels, click on any of them to style the selected element." } />
           
-          <List { text: "-" } />
+          <List { text: "Just above the 'innerText' icon on the bottom row lies two icons above each other, the first icon when clicked opens a modal which can be used to edit the CSS styles of an element, while the other one when clicked, opens a modal which can be used to edit the 'background' attribute of the canvas." } />
           </ul>
         </div>
       </div>
@@ -38,7 +38,8 @@ const HowToUse = new subComponent('HowToUse', {
       text-align: center;
       z-index: 3;
       border-radius: 10px;
-      padding-block: 2px;
+      padding-top: 2px;
+      padding-bottom: 10px;
       box-sizing: border-box;
       box-shadow: 2px 3px 16px rgba(0,0,0,0.1);
       position: absolute;

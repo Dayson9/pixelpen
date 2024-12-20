@@ -23,6 +23,7 @@ const PixelPen = new QComponent("#app", {
   run: () => {
     out = document.querySelector("#out");
     canvasContainer = document.querySelector("#main-c");
+    attri = document.getElementById('attri');
     loadAssets();
     if(!localStorage.getItem('how-to-use'))
     localStorage.setItem('how-to-use', true);
@@ -66,12 +67,12 @@ const PixelPen = new QComponent("#app", {
       color: white;
     `,
 
-    "#plus i:not(#out *)": `
+    ".plus i:not(#out *)": `
       font-size: 35px;
       font-weight: 800;
       color: rgba(80, 157, 255);
     `,
-    "#plus:not(#out *)": `
+    ".plus:not(#out *)": `
       width: 45px;
       height: 45px;
       border-radius: 50%;
@@ -80,6 +81,10 @@ const PixelPen = new QComponent("#app", {
       align-items: center;
       justify-content: center;
       box-sizing: border-box;
+    `,
+    
+    'button:active' : `
+      filter: brightness(70%);
     `
   }
 });
