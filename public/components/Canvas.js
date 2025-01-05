@@ -27,9 +27,9 @@ const Canvas = new subComponent("Canvas", {
          <i class='bx bx-x' onclick={{ this.data.mdDisplay = 'none'; }}></i>
          <Text { text: 'CSS Attribute', weight: 750, size: 20, color: 'rgba(19, 40, 67, 1)' } />
          
-        <input type='text' id='attri' oninput={{ this.data.attriValue = currentElement.style[e.target.value] }} placeholder='flex-direction'>
+        <input type='text' id='attri' oninput={{ this.data.attriValue = currentElement.style[e.target.value]; }} placeholder='flex-direction'>
         
-        <TextField { width: 78, height: 57, border: 'dodgerblue', color: 'rgba(19, 40, 67, 1)', placeholder: 'column', value: '{{ this.data.attriValue || "" }}', id: 'u', input: 'currentElement.style[attri.value] = e.target.value;', top: 10 } />
+        <TextField { width: 78, height: 57, border: 'dodgerblue', color: 'rgba(19, 40, 67, 1)', placeholder: 'column', value: '{{ this.data.attriValue || ""; }}', id: '_', input: 'currentElement.style[attri.value] = e.target.value;', top: 10 } />
         
         <button onclick={{
           this.data.mdDisplay = 'none';

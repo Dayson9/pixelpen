@@ -57,7 +57,7 @@ const updateElement = (title, placeholder, prop, isAttribute) => {
       input.oninput = function() {
         // Update the element's attribute with the input value, handling special cases like transforms.
         currentElement[prop] = this.value;
-        updateHighlighter(); // Update the highlighter after changing the attribute.
+        updateHighlighter();// Update the highlighter after changing the attribute.
       }
     } else {
       input.oninput = function() {
@@ -74,16 +74,16 @@ const updateElement = (title, placeholder, prop, isAttribute) => {
   }
 }
 
-// This function assigns an ID to the last child element of the "out" container, making it the "current" element.
+// This function assigns 'data-pxp' attribute to the last child element of the 'foreignObject' element, making it the "current" element.
 const appendNewDataset = () => {
-  // Remove the "pxp-current" ID from the current element if it exists.
+  // Remove the "data-pxp" attribute from the current element if it exists.
   const current = out.querySelector("[data-pxp=pxpEl]");
+  
   if (current) {
     current.removeAttribute("data-pxp");
   }
-
   // Get all child elements of the "out" container and select the last one.
-  const children = out.querySelectorAll("*"),
+  const children = current.querySelectorAll("*"),
     length = children.length;
   const curr = children[length - 1];
 
@@ -153,7 +153,6 @@ const addClick = () => {
   });
 }
 
-// This function resets the modal and updates the localStorage with the current HTML.
 const reset = () => {
 
   Footer.data.modalDisplay = "none"; // Hide the modal.
